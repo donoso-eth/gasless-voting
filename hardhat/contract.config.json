@@ -1,0 +1,8 @@
+{
+  "gaslessVoting": {
+    "artifactsPath": "GaslessVoting.sol/GaslessVoting.json",
+    "name": "GaslessVoting",
+    "ctor": [],
+    "jsonName": "gasless_voting"
+  }
+}
