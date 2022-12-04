@@ -14,7 +14,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
 import { Web3ModalComponent } from './web3-modal/web3-modal.component';
 import { Subject, takeUntil } from 'rxjs';
 import { GaslessVoting} from 'src/assets/contracts/interfaces/GaslessVoting';
-import GaslessVotingMetadata from 'src/assets/contracts/minimal_contract_metadata.json';
+import GaslessVotingMetadata from 'src/assets/contracts/gasless_voting_metadata.json';
 import { AngularContract } from './classes';
 
 

@@ -25,6 +25,6 @@ task('verify-contract', 'verify').setAction(async ({}, hre) => {
   
   await hre.run('verify:verify', {
     address: toVerifyApp .address,
-    constructorArguments: [ ,
+    constructorArguments: [] ,
   });
 });
