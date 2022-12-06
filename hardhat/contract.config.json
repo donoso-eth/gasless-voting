@@ -4,5 +4,11 @@
     "name": "GaslessVoting",
     "ctor": [],
     "jsonName": "gasless_voting"
+  },
+  "gaslessProposing": {
+    "artifactsPath": "GaslessProposing.sol/GaslessProposing.json",
+    "name": "GaslessProposing",
+    "ctor": [],
+    "jsonName": "gasless_proposing"
   }
 }

@@ -27,6 +27,8 @@ ensureDir(contract_path)
 
 async function main() {
 
+let proposingAddress;
+
 let network = hardhatArguments.network;
 if (network == undefined) {
   network = config.defaultNetwork;
@@ -34,7 +36,7 @@ if (network == undefined) {
 
   const contract_config = JSON.parse(readFileSync( join(processDir,'contract.config.json'),'utf-8')) as {[key:string]: ICONTRACT_DEPLOY}
   
-  const deployContracts=["gaslessVoting"]
+  const deployContracts=["gaslessProposing","gaslessVoting"]
  
   // Hardhat always runs the compile task when running scripts with its command
   // line interface.
@@ -57,13 +59,21 @@ if (network == undefined) {
       processDir,
       `./artifacts/contracts/${toDeployContract.artifactsPath}`
     );
+
+    if (toDeployContract.name =="GaslessVoting") {
+      toDeployContract.ctor.push(proposingAddress);
+    }
+
     const Metadata = JSON.parse(readFileSync(artifactsPath, 'utf-8'));
     const Contract = await ethers.getContractFactory(toDeployContract.name);
     const contract = await Contract.deploy.apply(
       Contract,
       toDeployContract.ctor
     );
-
+    
+    if (toDeployContract.name =="GaslessProposing") {
+      proposingAddress  = contract.address
+    }
    
     //const signer:Signer = await hre.ethers.getSigners()
 
