@@ -1,10 +1,10 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/hardhat/contracts/GaslessVoting.sol": {
-      "lastModificationDate": 1670316062966,
-      "contentHash": "8e34e60f6fb932b4f1a3fae8a9a0ed85",
-      "sourceName": "contracts/GaslessVoting.sol",
+    "/Users/javiermac/Documents/GELATO/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
+      "lastModificationDate": 1670311113045,
+      "contentHash": "33ba1800c36dddf379c134ad7e1d26b6",
+      "sourceName": "contracts/GaslessProposing.sol",
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -31,17 +31,16 @@
       "imports": [
         "hardhat/console.sol",
         "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
-        "@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
-        "GaslessVoting"
+        "GaslessProposing"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/hardhat/console.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/hardhat/console.sol": {
       "lastModificationDate": 1670089677643,
       "contentHash": "4ff3cd2f6272c9a6516e9ee4f2b967d3",
       "sourceName": "hardhat/console.sol",
@@ -76,7 +75,7 @@
         "console"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol": {
       "lastModificationDate": 1670308885536,
       "contentHash": "bbb3ea21d7d31563d16f8233dd2f3c29",
       "sourceName": "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
@@ -114,7 +113,7 @@
         "GelatoRelayContext"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol": {
       "lastModificationDate": 1670089677167,
       "contentHash": "190f627b9302b9602d3a313e28205cc5",
       "sourceName": "@openzeppelin/contracts/token/ERC721/ERC721.sol",
@@ -157,7 +156,7 @@
         "ERC721"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/base/GelatoRelayBase.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/base/GelatoRelayBase.sol": {
       "lastModificationDate": 1670308885536,
       "contentHash": "4884804ce4a86cee889a6893321851a8",
       "sourceName": "@gelatonetwork/relay-context/contracts/base/GelatoRelayBase.sol",
@@ -194,8 +193,8 @@
         "GelatoRelayBase"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/lib/TokenUtils.sol": {
-      "lastModificationDate": 1670258720266,
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/lib/TokenUtils.sol": {
+      "lastModificationDate": 1670308885539,
       "contentHash": "fa4eb8847f738326336e2b63b0fb8a43",
       "sourceName": "@gelatonetwork/relay-context/contracts/lib/TokenUtils.sol",
       "solcConfig": {
@@ -234,7 +233,7 @@
         "TokenUtils"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/constants/GelatoRelay.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/constants/GelatoRelay.sol": {
       "lastModificationDate": 1670308885537,
       "contentHash": "e7268be0177a39de4a9c17d721bc34d3",
       "sourceName": "@gelatonetwork/relay-context/contracts/constants/GelatoRelay.sol",
@@ -267,7 +266,7 @@
       ],
       "artifacts": []
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/Address.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/Address.sol": {
       "lastModificationDate": 1670089677042,
       "contentHash": "f31ad6fc4bbf9c06203987220156a6ba",
       "sourceName": "@openzeppelin/contracts/utils/Address.sol",
@@ -302,8 +301,8 @@
         "Address"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/constants/Tokens.sol": {
-      "lastModificationDate": 1670258720262,
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/constants/Tokens.sol": {
+      "lastModificationDate": 1670308885537,
       "contentHash": "7dfe07162328a74b82d925cfbe6b06fd",
       "sourceName": "@gelatonetwork/relay-context/contracts/constants/Tokens.sol",
       "solcConfig": {
@@ -335,7 +334,7 @@
       ],
       "artifacts": []
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/IERC20.sol": {
       "lastModificationDate": 1670089677262,
       "contentHash": "ad7c2d0af148c8f9f097d65deeb4da6b",
       "sourceName": "@openzeppelin/contracts/token/ERC20/IERC20.sol",
@@ -370,7 +369,7 @@
         "IERC20"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol": {
       "lastModificationDate": 1670089677336,
       "contentHash": "0320a90f714843ca19373ed143fc4466",
       "sourceName": "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol",
@@ -409,7 +408,7 @@
         "SafeERC20"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol": {
       "lastModificationDate": 1670089677087,
       "contentHash": "fb77f144244b9ab12533aa6ce85ef8c5",
       "sourceName": "@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol",
@@ -444,7 +443,7 @@
         "IERC20Permit"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/Context.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/Context.sol": {
       "lastModificationDate": 1670089677060,
       "contentHash": "5f2c5c4b6af2dd4551027144797bc8be",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
@@ -479,7 +478,7 @@
         "Context"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/Strings.sol": {
       "lastModificationDate": 1670089677346,
       "contentHash": "396031251978f8febfd90cb62cb240ec",
       "sourceName": "@openzeppelin/contracts/utils/Strings.sol",
@@ -516,7 +515,7 @@
         "Strings"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
       "lastModificationDate": 1670089677121,
       "contentHash": "0e7db055ce108f9da7bb6686a00287c0",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
@@ -553,7 +552,7 @@
         "ERC165"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol": {
       "lastModificationDate": 1670089677275,
       "contentHash": "eb7e61db29f31d88b3c1cef1b063d338",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721.sol",
@@ -590,7 +589,7 @@
         "IERC721"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol": {
       "lastModificationDate": 1670089677282,
       "contentHash": "c22d4395e33763de693fd440c6fd10e1",
       "sourceName": "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol",
@@ -625,7 +624,7 @@
         "IERC721Receiver"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol": {
       "lastModificationDate": 1670089677280,
       "contentHash": "efbc0d15b80a74e34dbe8da0f3e879bb",
       "sourceName": "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol",
@@ -662,7 +661,7 @@
         "IERC721Metadata"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
       "lastModificationDate": 1670089677309,
       "contentHash": "b9c58920ce74d6dc819161786112e7ee",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
@@ -697,7 +696,7 @@
         "Math"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
       "lastModificationDate": 1670089677257,
       "contentHash": "03e6768535ac4da0e9756f1d8a4a018a",
       "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
@@ -732,10 +731,10 @@
         "IERC165"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
-      "lastModificationDate": 1670311113045,
-      "contentHash": "33ba1800c36dddf379c134ad7e1d26b6",
-      "sourceName": "contracts/GaslessProposing.sol",
+    "/Users/javiermac/Documents/GELATO/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol": {
+      "lastModificationDate": 1670308885536,
+      "contentHash": "257fc8f522b3a9bbf0bac57077f00826",
+      "sourceName": "@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol",
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -760,18 +759,17 @@
         }
       },
       "imports": [
-        "hardhat/console.sol",
-        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol"
+        "./base/GelatoRelayBase.sol",
+        "./lib/TokenUtils.sol"
       ],
       "versionPragmas": [
-        "^0.8.0"
+        "^0.8.1"
       ],
       "artifacts": [
-        "GaslessProposing"
+        "GelatoRelayContextERC2771"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/hardhat/contracts/interfaces/IGaslessVoting.sol": {
+    "/Users/javiermac/Documents/GELATO/gasless-voting/hardhat/contracts/interfaces/IGaslessVoting.sol": {
       "lastModificationDate": 1670311143846,
       "contentHash": "a5d236baa80796d2a49dd0cd0283f7fe",
       "sourceName": "contracts/interfaces/IGaslessVoting.sol",
@@ -811,10 +809,10 @@
         "IGaslessVoting"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/tinker/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol": {
-      "lastModificationDate": 1670308885536,
-      "contentHash": "257fc8f522b3a9bbf0bac57077f00826",
-      "sourceName": "@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol",
+    "/Users/javiermac/Documents/GELATO/gasless-voting/hardhat/contracts/GaslessVoting.sol": {
+      "lastModificationDate": 1670316062966,
+      "contentHash": "8e34e60f6fb932b4f1a3fae8a9a0ed85",
+      "sourceName": "contracts/GaslessVoting.sol",
       "solcConfig": {
         "version": "0.8.4",
         "settings": {
@@ -839,14 +837,16 @@
         }
       },
       "imports": [
-        "./base/GelatoRelayBase.sol",
-        "./lib/TokenUtils.sol"
+        "hardhat/console.sol",
+        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
+        "@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol",
+        "@openzeppelin/contracts/token/ERC721/ERC721.sol"
       ],
       "versionPragmas": [
-        "^0.8.1"
+        "^0.8.0"
       ],
       "artifacts": [
-        "GelatoRelayContextERC2771"
+        "GaslessVoting"
       ]
     }
   }

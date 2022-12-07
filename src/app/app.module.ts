@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GaslessVotingModule } from './0-minimal-contract/minimal-contract.module';
+import { GaslessVotingModule } from './gasless-voting/gasless-voting.module';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
 import { we3ReducerFunction,settings } from 'angular-web3';
@@ -19,6 +19,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AppFooterComponent } from './shared/components/footer/app.footer.component';
 
 const network = 'localhost';
 
@@ -26,7 +27,8 @@ const network = 'localhost';
   declarations: [
     AppComponent,
     LoadingComponent,
-    AppTopBarComponent
+    AppTopBarComponent,
+    AppFooterComponent
   ],
   imports: [
     BrowserModule,

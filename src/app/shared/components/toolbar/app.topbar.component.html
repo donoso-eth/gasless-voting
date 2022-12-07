@@ -1,6 +1,6 @@
 <div class="layout-topbar">
   <a style="width: unset" class="layout-topbar-logo" routerLink="">
-    <img  style="transform: scale(0.7);" src="assets/images/logo_horizontal.png" />
+    <img  height="40" src="assets/images/gelato.svg" />
   </a>
 
   <div
@@ -33,30 +33,24 @@
   </div>
   <div
     *ngIf="blockchain_status == 'wallet-connected'"
-    style="margin-left: 10px"
+    style="margin-left: 40px"
     class="layout-topbar-menu"
   >
     <a 
       [routerLink]="'landing'"
-      style="margin-left: unset;width:120px;font-size:20px"
+      style="margin-left: unset;width:80px;font-size:18px"
       class="p-link layout-topbar-button menu_css" routerLinkActive="active"
     >
       home
     </a>
     <a 
       routerLink="dashboard"
-      style="margin-left:30px;width:120px"
+      style="margin-left:30px;width:80px;font-size:18px"
       class="p-link layout-topbar-button menu_css" routerLinkActive="active"
     >
-     dashboard
+     vote
     </a>
-    <a 
-    routerLink="credit-marketplace"
-    style="margin-left:30px;width:120px"
-    class="p-link layout-topbar-button menu_css" routerLinkActive="active"
-  >
-   marketplace
-  </a>
+ 
   </div>
   <div
     *ngIf="blockchain_status == 'wallet-connected'"

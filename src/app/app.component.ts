@@ -15,6 +15,6 @@ export class AppComponent  extends DappBaseComponent  {
     }
   ngOnInit() {
     this.primengConfig.ripple = true;
-    document.documentElement.style.fontSize = '20px';
+    document.documentElement.style.fontSize = '16px';
   }
 }

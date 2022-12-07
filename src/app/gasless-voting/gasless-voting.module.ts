@@ -1,6 +1,7 @@
 import { NgModule,InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { GaslessVotingComponent } from './minimal-contract/minimal-contract.component';
+import { GaslessVotingComponent } from './gasless-voting/gasless-voting.component';
+import { GaslessVotingRoutingModule } from './gasless-voting-routing.module';
 
 
 
@@ -12,6 +13,7 @@ import { GaslessVotingComponent } from './minimal-contract/minimal-contract.comp
   ],
   imports: [
     CommonModule,
+   GaslessVotingRoutingModule
   ],
   exports: [
     GaslessVotingComponent,

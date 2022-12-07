@@ -12,8 +12,8 @@ import { providers } from 'ethers';
 import { GaslessVoting} from 'src/assets/contracts/interfaces/GaslessVoting';
 
 @Component({
-  selector: 'minimal-contract',
-  templateUrl: './minimal-contract.component.html',
+  selector: 'gasless-voting',
+  templateUrl: './gasless-voting.component.html',
   styles: [
     `
       .blockchain_is_busy {
