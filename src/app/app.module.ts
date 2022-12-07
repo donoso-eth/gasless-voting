@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GaslessVotingModule } from './gasless-voting/gasless-voting.module';
 import { DappInjectorModule } from './dapp-injector/dapp-injector.module';
 import { StoreModule } from '@ngrx/store';
 import { we3ReducerFunction,settings } from 'angular-web3';
@@ -37,8 +36,7 @@ const network = 'localhost';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
-    GaslessVotingModule,
-    DappInjectorModule.forRoot({wallet: 'wallet', defaultNetwork:network}),
+    DappInjectorModule.forRoot({wallet: settings[network].wallet, defaultNetwork:network}),
     StoreModule.forRoot({web3: we3ReducerFunction}),
     DropdownModule,
     ProgressSpinnerModule,

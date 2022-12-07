@@ -17,9 +17,20 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
+export type ProposalStateStruct = {
+  positive: BigNumberish;
+  negative: BigNumberish;
+};
+
+export type ProposalStateStructOutput = [BigNumber, BigNumber] & {
+  positive: BigNumber;
+  negative: BigNumber;
+};
+
 export interface GaslessVotingInterface extends utils.Interface {
   functions: {
     "_createProposal(uint256)": FunctionFragment;
+    "getProposalState()": FunctionFragment;
     "proposalState(uint256)": FunctionFragment;
     "votingProposal(bool)": FunctionFragment;
   };
@@ -27,6 +38,10 @@ export interface GaslessVotingInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "_createProposal",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getProposalState",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "proposalState",
@@ -39,6 +54,10 @@ export interface GaslessVotingInterface extends utils.Interface {
 
   decodeFunctionResult(
     functionFragment: "_createProposal",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getProposalState",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -85,6 +104,10 @@ export interface GaslessVoting extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    getProposalState(
+      overrides?: CallOverrides
+    ): Promise<[ProposalStateStructOutput]>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -102,6 +125,10 @@ export interface GaslessVoting extends BaseContract {
     _proposalId: BigNumberish,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  getProposalState(
+    overrides?: CallOverrides
+  ): Promise<ProposalStateStructOutput>;
 
   proposalState(
     arg0: BigNumberish,
@@ -121,6 +148,10 @@ export interface GaslessVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getProposalState(
+      overrides?: CallOverrides
+    ): Promise<ProposalStateStructOutput>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -139,6 +170,8 @@ export interface GaslessVoting extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    getProposalState(overrides?: CallOverrides): Promise<BigNumber>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -155,6 +188,8 @@ export interface GaslessVoting extends BaseContract {
       _proposalId: BigNumberish,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    getProposalState(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     proposalState(
       arg0: BigNumberish,

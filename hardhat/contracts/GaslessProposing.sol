@@ -13,6 +13,7 @@ enum ProposalStatus {
   Voting
 }
 
+
 contract GaslessProposing is GelatoRelayContext{
 
 // we only allow one proposal every 24 hours
@@ -24,17 +25,20 @@ uint256 proposalId = 0;
 // Initial Status
 ProposalStatus proposalStatus = ProposalStatus.Ready;
 
-
 // Proposal init
 uint256 proposalTimestamp = 0;
+
+// bytes
+bytes proposalBytes;
+
 
 constructor() {}
 
 
 // @notice User external 
-function createProposal(bytes calldata title, bytes calldata description) external  onlyGelatoRelay {
+function createProposal(bytes calldata payload) external  onlyGelatoRelay {
 
-  _createProposal(title,description)
+  _createProposal(payload);
 
   _transferRelayFee();
 
@@ -42,11 +46,12 @@ function createProposal(bytes calldata title, bytes calldata description) extern
 
 }
 
-function _createProposal(bytes calldata title, bytes calldata description) public {
+function _createProposal(bytes calldata payload) public {
   require(proposalStatus == ProposalStatus.Ready, 'OLD_PROPOSAL_STILL_ACTIVE');
   proposalId++;
   proposalStatus = ProposalStatus.Voting;
   proposalTimestamp = block.timestamp;
+  proposalBytes = payload;
 
 }
 
@@ -59,6 +64,9 @@ function getProposalTimestamp() public view returns (uint256) {
   return proposalTimestamp;
 }
 
+function getProposalBytes() public view returns (bytes memory) {
+  return proposalBytes;
+}
 
 
 }

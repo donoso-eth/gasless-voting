@@ -33,18 +33,34 @@
                 </div>
             </div>
             <div class="col-6">
-                <div style="border-color: transparent;text-align: center;" class="card">
+                <div style="border-color: transparent;text-align: center;height:400px" class="card">
 
                     <div style="padding: 20px" class="mt-2 grid p-fluid justify-content-center">
                         <div *ngIf="readyToPropose" style="position: relative" class="col-6 md:col-6">
                             <h5>No Active Proposal to be voted</h5>
 
                         </div>
-                        <div *ngIf="!readyToPropose" style="position: relative" class="col-6 md:col-6">
-                            <h5>No Active Proposal to be voted</h5>
-                            <div style="position: relative;text-align: center;margin: auto;" class="col-2 md:col-4">
-                                <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto"
-                                    type="button" label="Vote" class="p-button-rounded mr-2 mb-2"></button>
+                        <div *ngIf="!readyToPropose" style="position: relative" class="col-10 md:col-10">
+                            <h5>Proposal ready to be voted</h5>
+                            <p>{{nameProposal}}</p>
+                            <p>{{descriptionProposal}}</p>
+                            <div style="position: relative;text-align: center;margin: auto;" >
+                                
+                                <div style="display: flex;justify-content: center;">
+                                    <div style="margin:20px">
+                                        <span>Positive</span>
+                                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: 15px auto"
+                                        type="button" label="UpVote" class="p-button-rounded mr-2 mb-2"></button>
+                                    </div>
+                                    <div style="margin:20px">
+                                        <span>Negative</span>
+                                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: 15px auto"
+                                        type="button" label="DownVote" class="p-button-rounded mr-2 mb-2"></button>
+                                    </div>   
+
+                                </div>
+
+                            
                             </div>
                         </div>
 
@@ -54,10 +70,10 @@
 
             </div>
             <div class="col-6">
-                <div style="border-color: transparent;text-align: center;" [formGroup]="proposalForm" class="card">
+                <div style="border-color: transparent;text-align: center;height:400px" [formGroup]="proposalForm" class="card">
 
-                    <div style="padding: 20px" class="mt-2 grid p-fluid justify-content-center">
-                        <div style="position: relative" class="col-6 md:col-6">
+                    <div style="padding: 20px;" class="mt-2 grid p-fluid justify-content-center">
+                        <div style="position: relative" class="col-8 md:col-8">
                             <h5>Create your Proposal</h5>
 
                             <input placeholder="Name" formControlName="nameCtrl" type="text" pInputText />
@@ -70,7 +86,7 @@
 
                     </div>
                     <div style="position: relative;text-align: center;margin: auto;" class="col-2 md:col-4">
-                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto" type="button"
+                        <button (click)="createProposal()" [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto" type="button"
                             label="Propose" class="p-button-rounded mr-2 mb-2"></button>
                     </div>
                 </div>

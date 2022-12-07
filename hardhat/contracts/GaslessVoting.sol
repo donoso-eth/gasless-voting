@@ -12,7 +12,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 struct ProposalState {
   uint256 positive;
   uint256 negative;
-  mapping(address=> bool) alredyVoted;
+
 }
 
 contract GaslessVoting is GelatoRelayContextERC2771 {
@@ -33,6 +33,8 @@ contract GaslessVoting is GelatoRelayContextERC2771 {
   // mapping
   mapping(uint256 => ProposalState) public proposalState;
 
+  mapping( uint256 => mapping(address=> bool)) alredyVotedById;
+
   constructor(address _gasslessroposing) {}
 
 
@@ -41,7 +43,7 @@ contract GaslessVoting is GelatoRelayContextERC2771 {
 
   address voter = _getMsgSender();
 
-  require(proposalState[currentProposalId].alredyVoted[voter] == false, 'ALREADY_VOTED');
+  require(alredyVotedById[currentProposalId][voter] == false, 'ALREADY_VOTED');
 
   if (positive) {
     proposalState[currentProposalId].positive ++;
@@ -49,7 +51,7 @@ contract GaslessVoting is GelatoRelayContextERC2771 {
     proposalState[currentProposalId].negative++;
   }
 
-  proposalState[currentProposalId].alredyVoted[voter] = true;
+  alredyVotedById[currentProposalId][voter] == true;
 
  _transferRelayFee();
 
@@ -59,6 +61,10 @@ contract GaslessVoting is GelatoRelayContextERC2771 {
 
   // 
 
+  //
+  function getProposalState() public view returns (ProposalState memory) {
+    return proposalState[currentProposalId];
+  }
 
   // @notice User external
   function _createProposal(uint256 _proposalId) external onlyGaslessProposing {
