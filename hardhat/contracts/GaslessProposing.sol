@@ -32,17 +32,33 @@ constructor() {}
 
 
 // @notice User external 
-function createProposal(bytes calldata title, bytes calldata description) external onlyGelatoRelay {
+function createProposal(bytes calldata title, bytes calldata description) external  onlyGelatoRelay {
 
-  require(proposalStatus == ProposalStatus.Ready, 'OLD_PROPOSAL_STILL_ACTIVE');
+  _createProposal(title,description)
 
   _transferRelayFee();
 
+ 
+
+}
+
+function _createProposal(bytes calldata title, bytes calldata description) public {
+  require(proposalStatus == ProposalStatus.Ready, 'OLD_PROPOSAL_STILL_ACTIVE');
   proposalId++;
   proposalStatus = ProposalStatus.Voting;
   proposalTimestamp = block.timestamp;
 
 }
+
+// View Funcitons
+function getStatus() public view returns (ProposalStatus) {
+  return proposalStatus;
+}
+
+function getProposalTimestamp() public view returns (uint256) {
+  return proposalTimestamp;
+}
+
 
 
 }

@@ -19,17 +19,29 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface GaslessProposingInterface extends utils.Interface {
   functions: {
     "createProposal(bytes,bytes)": FunctionFragment;
+    "getProposalTimestamp()": FunctionFragment;
+    "getStatus()": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "createProposal",
     values: [BytesLike, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getProposalTimestamp",
+    values?: undefined
+  ): string;
+  encodeFunctionData(functionFragment: "getStatus", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "createProposal",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getProposalTimestamp",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "getStatus", data: BytesLike): Result;
 
   events: {};
 }
@@ -66,6 +78,10 @@ export interface GaslessProposing extends BaseContract {
       description: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    getProposalTimestamp(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getStatus(overrides?: CallOverrides): Promise<[number]>;
   };
 
   createProposal(
@@ -74,12 +90,20 @@ export interface GaslessProposing extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getStatus(overrides?: CallOverrides): Promise<number>;
+
   callStatic: {
     createProposal(
       title: BytesLike,
       description: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getStatus(overrides?: CallOverrides): Promise<number>;
   };
 
   filters: {};
@@ -90,6 +114,10 @@ export interface GaslessProposing extends BaseContract {
       description: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getStatus(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -98,5 +126,11 @@ export interface GaslessProposing extends BaseContract {
       description: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    getProposalTimestamp(
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getStatus(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

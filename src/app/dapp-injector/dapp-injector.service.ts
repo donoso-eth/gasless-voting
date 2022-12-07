@@ -110,14 +110,7 @@ export class DappInjector implements OnDestroy {
       
         break;
 
-      case 'privKey':
-        let privateWallet: Wallet;
-        let privKey = ''; //environment.privKey
-        privateWallet = new Wallet(privKey);
-        this.DAPP_STATE.signer = await privateWallet.connect(this.DAPP_STATE.defaultProvider);
-        this.DAPP_STATE.signerAddress = await this.DAPP_STATE.signer.getAddress()
-        this.contractInitialization();
-        break;
+
     }
 
 
@@ -146,7 +139,7 @@ async localWallet(index:number) {
 
 
   ///// ---------  Provider Initialization or THROW if NOT CONNECTION
- private  async providerInitialization(): Promise<JsonRpcProvider> {
+ public  async providerInitialization(): Promise<JsonRpcProvider> {
     const hardhatProvider = await this.createProvider([NETWORKS[this.dappConfig.defaultNetwork].rpcUrl]);
 
     try {

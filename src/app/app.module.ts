@@ -38,7 +38,7 @@ const network = 'localhost';
     FormsModule,
     ReactiveFormsModule,
     GaslessVotingModule,
-    DappInjectorModule.forRoot({wallet: settings[network].wallet, defaultNetwork:network}),
+    DappInjectorModule.forRoot({wallet: 'wallet', defaultNetwork:network}),
     StoreModule.forRoot({web3: we3ReducerFunction}),
     DropdownModule,
     ProgressSpinnerModule,

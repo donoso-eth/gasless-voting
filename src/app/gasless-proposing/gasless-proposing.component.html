@@ -1,37 +1,83 @@
 <div class="grid justify-content-center flex-column align-items-center">
-    <h3>Best in Class Ux with Gelato Relay experience 
-      <div  style="margin:unset" class="col-12 call-out">
-        <div class="flex align-items-center justify-content-center">
-        
-  
-  
-        </div>
-      </div>
-    </h3>
-  
-    <div class="col-12">
-      <div class="grid justify-content-center">
-  
-          
-        <div style="text-align: center" class="col-12">
-          <div style="border:unset;height:330px" class="card mb-0">
-            <p style="font-size: 25px">
-              In this demo we 
-              <span style="color: var(--primary-color)">Suppliers</span> and...
-            </p>
-      
-  
-            <p style="margin: unset">...and giving the "takt"</p>
-            <div>
-              <img height="100"  src="assets/images/gelato.svg" />
+    <h3>
+        <div style="margin:unset" class="col-12 call-out">
+            <div class="flex align-items-center justify-content-center">
+
+
+
             </div>
-  
-            <!-- <p-progressSpinner></p-progressSpinner> -->
-          </div>
         </div>
-     
-    
-  
-      </div>
+    </h3>
+
+    <div class="col-12">
+        <div class="grid justify-content-center">
+
+
+            <div style="text-align: center" class="col-12">
+                <div style="border:unset;height:330px" class="card mb-0">
+                    <p style="font-size: 25px">
+                        Best in Class Ux with
+                        <span style="color: var(--primary-color)">Gelato Relay </span>
+                        experience
+                    </p>
+
+
+                    <h3>Welcome to GasLess DAO</h3>
+                    <p style="margin: unset">In this dApp you will be able to send gasless transactions"</p>
+
+                    <div>
+                        <img height="100" src="assets/images/gelato.svg" />
+                    </div>
+                    <p style="margin: unset">You can </p>
+
+                </div>
+            </div>
+            <div class="col-6">
+                <div style="border-color: transparent;text-align: center;" class="card">
+
+                    <div style="padding: 20px" class="mt-2 grid p-fluid justify-content-center">
+                        <div *ngIf="readyToPropose" style="position: relative" class="col-6 md:col-6">
+                            <h5>No Active Proposal to be voted</h5>
+
+                        </div>
+                        <div *ngIf="!readyToPropose" style="position: relative" class="col-6 md:col-6">
+                            <h5>No Active Proposal to be voted</h5>
+                            <div style="position: relative;text-align: center;margin: auto;" class="col-2 md:col-4">
+                                <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto"
+                                    type="button" label="Vote" class="p-button-rounded mr-2 mb-2"></button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="col-6">
+                <div style="border-color: transparent;text-align: center;" [formGroup]="proposalForm" class="card">
+
+                    <div style="padding: 20px" class="mt-2 grid p-fluid justify-content-center">
+                        <div style="position: relative" class="col-6 md:col-6">
+                            <h5>Create your Proposal</h5>
+
+                            <input placeholder="Name" formControlName="nameCtrl" type="text" pInputText />
+
+                            <textarea placeholder="Description" formControlName="descriptionCtrl" [rows]="5" [cols]="30"
+                                pInputTextarea [autoResize]="true"></textarea>
+
+                        </div>
+
+
+                    </div>
+                    <div style="position: relative;text-align: center;margin: auto;" class="col-2 md:col-4">
+                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto" type="button"
+                            label="Propose" class="p-button-rounded mr-2 mb-2"></button>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
     </div>
-  </div>
+</div>
