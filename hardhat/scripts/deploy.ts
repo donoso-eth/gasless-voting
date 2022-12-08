@@ -11,6 +11,9 @@ import config from "../hardhat.config";
 import { join } from "path";
 import { createHardhatAndFundPrivKeysFiles } from "../helpers/localAccounts";
 import * as hre from 'hardhat';
+import { initEnv, waitForTx } from "../helpers/utils";
+import { SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { GaslessProposing__factory, GaslessVoting__factory } from "../typechain-types";
 
 
 interface ICONTRACT_DEPLOY {
@@ -28,11 +31,14 @@ ensureDir(contract_path)
 async function main() {
 
 let proposingAddress;
-
+let deployer: SignerWithAddress;
+let user1: SignerWithAddress;
 let network = hardhatArguments.network;
 if (network == undefined) {
   network = config.defaultNetwork;
 }
+
+[deployer, user1] = await initEnv(hre);
 
   const contract_config = JSON.parse(readFileSync( join(processDir,'contract.config.json'),'utf-8')) as {[key:string]: ICONTRACT_DEPLOY}
   
@@ -46,58 +52,58 @@ if (network == undefined) {
   // await hre.run('compile');
 
   
-  for (const toDeployName of deployContracts) {
-    const toDeployContract = contract_config[toDeployName];
-    if (toDeployContract == undefined) {
-      console.error('Your contract is not yet configured');
-      console.error(
-        'Please add the configuration to /hardhat/contract.config.json'
-      );
-      return;
-    }
-    const artifactsPath = join(
-      processDir,
-      `./artifacts/contracts/${toDeployContract.artifactsPath}`
-    );
+  //// DEPLOY POOL IMPL
+  let toDeployContract;
 
-    if (toDeployContract.name =="GaslessVoting") {
-      toDeployContract.ctor.push(proposingAddress);
-    }
+  let nonce = await deployer.getTransactionCount();
+ 
+  const gasLessProposing = await new GaslessProposing__factory(deployer).deploy({ gasLimit: 10000000, nonce: nonce });
 
-    const Metadata = JSON.parse(readFileSync(artifactsPath, 'utf-8'));
-    const Contract = await ethers.getContractFactory(toDeployContract.name);
-    const contract = await Contract.deploy.apply(
-      Contract,
-      toDeployContract.ctor
-    );
-    
-    if (toDeployContract.name =="GaslessProposing") {
-      proposingAddress  = contract.address
-    }
-   
-    //const signer:Signer = await hre.ethers.getSigners()
+  const gasLessVoting = await new GaslessVoting__factory(deployer).deploy(gasLessProposing.address,{ gasLimit: 10000000, nonce: nonce +1 });
 
-    writeFileSync(
-      `${contract_path}/${toDeployContract.jsonName}_metadata.json`,
-      JSON.stringify({
-        abi: Metadata.abi,
-        name: toDeployContract.name,
-        address: contract.address,
-        network: network,
-      })
-    );
+  await waitForTx(gasLessProposing.setVotingContract(gasLessVoting.address,{ gasLimit: 10000000, nonce: nonce +2 }));
 
-    console.log(
-      toDeployContract.name + ' Contract Deployed to:',
-      contract.address
-    );
+  let initialPoolEth = hre.ethers.utils.parseEther('0.5');
 
-    ///// copy Interfaces and create Metadata address/abi to assets folder
-    copySync(
-      `./typechain-types/${toDeployContract.name}.ts`,
-      join(contract_path, 'interfaces', `${toDeployContract.name}.ts`)
-    );
-  }
+  await deployer.sendTransaction({ to: gasLessProposing.address, value: initialPoolEth, gasLimit: 10000000, nonce: nonce + 3 });
+  await deployer.sendTransaction({ to: gasLessVoting.address, value: initialPoolEth, gasLimit: 10000000, nonce: nonce + 4 });
+
+  toDeployContract = contract_config[deployContracts[0]];
+  writeFileSync(
+    `${contract_path}/${toDeployContract.jsonName}_metadata.json`,
+    JSON.stringify({
+      abi: GaslessProposing__factory.abi,
+      name: toDeployContract.name,
+      address: gasLessProposing.address,
+      network: network,
+    })
+  );
+
+  console.log(toDeployContract.name + ' Contract Deployed to:', gasLessProposing.address);
+
+  ///// copy Interfaces and create Metadata address/abi to assets folder
+  copySync(`./typechain-types/${toDeployContract.name}.ts`, join(contract_path, 'interfaces', `${toDeployContract.name}.ts`));
+
+
+  toDeployContract = contract_config[deployContracts[1]];
+  writeFileSync(
+    `${contract_path}/${toDeployContract.jsonName}_metadata.json`,
+    JSON.stringify({
+      abi: GaslessVoting__factory.abi,
+      name: toDeployContract.name,
+      address: gasLessVoting.address,
+      network: network,
+    })
+  );
+
+  console.log(toDeployContract.name + ' Contract Deployed to:', gasLessVoting.address);
+
+  ///// copy Interfaces and create Metadata address/abi to assets folder
+  copySync(`./typechain-types/${toDeployContract.name}.ts`, join(contract_path, 'interfaces', `${toDeployContract.name}.ts`));
+
+
+
+
 
   ///// create the local accounts file
   if (

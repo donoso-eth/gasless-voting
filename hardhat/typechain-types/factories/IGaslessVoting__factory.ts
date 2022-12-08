@@ -11,7 +11,18 @@ import type {
 
 const _abi = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "_proposalId",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes",
+        name: "payload",
+        type: "bytes",
+      },
+    ],
     name: "_createProposal",
     outputs: [],
     stateMutability: "nonpayable",

@@ -6,9 +6,6 @@ import {
     GelatoRelayContext
 } from "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol";
 
-import {
-   GelatoRelayContextERC2771
-} from "@gelatonetwork/relay-context/contracts/GelatoRelayContextERC2771.sol";
 
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -22,6 +19,6 @@ interface IGaslessVoting {
 
 
 // @notice User external 
-function _createProposal() external;
+function _createProposal(uint256 _proposalId, bytes memory payload) external;
 
 }

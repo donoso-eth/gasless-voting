@@ -20,24 +20,42 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export type ProposalStateStruct = {
   positive: BigNumberish;
   negative: BigNumberish;
+  proposalTimestamp: BigNumberish;
+  currentProposalId: BigNumberish;
+  payload: BytesLike;
 };
 
-export type ProposalStateStructOutput = [BigNumber, BigNumber] & {
+export type ProposalStateStructOutput = [
+  BigNumber,
+  BigNumber,
+  BigNumber,
+  BigNumber,
+  string
+] & {
   positive: BigNumber;
   negative: BigNumber;
+  proposalTimestamp: BigNumber;
+  currentProposalId: BigNumber;
+  payload: string;
 };
 
 export interface GaslessVotingInterface extends utils.Interface {
   functions: {
-    "_createProposal(uint256)": FunctionFragment;
+    "_createProposal(uint256,bytes)": FunctionFragment;
+    "_votingProposal(bool,address)": FunctionFragment;
     "getProposalState()": FunctionFragment;
     "proposalState(uint256)": FunctionFragment;
     "votingProposal(bool)": FunctionFragment;
+    "withdraw()": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "_createProposal",
-    values: [BigNumberish]
+    values: [BigNumberish, BytesLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "_votingProposal",
+    values: [boolean, string]
   ): string;
   encodeFunctionData(
     functionFragment: "getProposalState",
@@ -51,9 +69,14 @@ export interface GaslessVotingInterface extends utils.Interface {
     functionFragment: "votingProposal",
     values: [boolean]
   ): string;
+  encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "_createProposal",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_votingProposal",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -68,6 +91,7 @@ export interface GaslessVotingInterface extends utils.Interface {
     functionFragment: "votingProposal",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {};
 }
@@ -101,6 +125,13 @@ export interface GaslessVoting extends BaseContract {
   functions: {
     _createProposal(
       _proposalId: BigNumberish,
+      payload: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    _votingProposal(
+      positive: boolean,
+      voter: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -112,17 +143,34 @@ export interface GaslessVoting extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { positive: BigNumber; negative: BigNumber }
+      [BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+        positive: BigNumber;
+        negative: BigNumber;
+        proposalTimestamp: BigNumber;
+        currentProposalId: BigNumber;
+        payload: string;
+      }
     >;
 
     votingProposal(
       positive: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    withdraw(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   _createProposal(
     _proposalId: BigNumberish,
+    payload: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  _votingProposal(
+    positive: boolean,
+    voter: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -134,7 +182,13 @@ export interface GaslessVoting extends BaseContract {
     arg0: BigNumberish,
     overrides?: CallOverrides
   ): Promise<
-    [BigNumber, BigNumber] & { positive: BigNumber; negative: BigNumber }
+    [BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+      positive: BigNumber;
+      negative: BigNumber;
+      proposalTimestamp: BigNumber;
+      currentProposalId: BigNumber;
+      payload: string;
+    }
   >;
 
   votingProposal(
@@ -142,9 +196,20 @@ export interface GaslessVoting extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  withdraw(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     _createProposal(
       _proposalId: BigNumberish,
+      payload: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    _votingProposal(
+      positive: boolean,
+      voter: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -156,10 +221,18 @@ export interface GaslessVoting extends BaseContract {
       arg0: BigNumberish,
       overrides?: CallOverrides
     ): Promise<
-      [BigNumber, BigNumber] & { positive: BigNumber; negative: BigNumber }
+      [BigNumber, BigNumber, BigNumber, BigNumber, string] & {
+        positive: BigNumber;
+        negative: BigNumber;
+        proposalTimestamp: BigNumber;
+        currentProposalId: BigNumber;
+        payload: string;
+      }
     >;
 
     votingProposal(positive: boolean, overrides?: CallOverrides): Promise<void>;
+
+    withdraw(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -167,6 +240,13 @@ export interface GaslessVoting extends BaseContract {
   estimateGas: {
     _createProposal(
       _proposalId: BigNumberish,
+      payload: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    _votingProposal(
+      positive: boolean,
+      voter: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -181,11 +261,22 @@ export interface GaslessVoting extends BaseContract {
       positive: boolean,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    withdraw(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     _createProposal(
       _proposalId: BigNumberish,
+      payload: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    _votingProposal(
+      positive: boolean,
+      voter: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -198,6 +289,10 @@ export interface GaslessVoting extends BaseContract {
 
     votingProposal(
       positive: boolean,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    withdraw(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

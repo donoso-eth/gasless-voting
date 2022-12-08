@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import {InputTextareaModule} from 'primeng/inputtextarea';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {InputTextareaModule} from 'primeng/inputtextarea';
     ButtonModule,
     InputTextModule,
     InputTextareaModule,
-    GaslessProposingRoutingModule
+    GaslessProposingRoutingModule,
+    ToastModule
   ]
 })
 export class GaslessProposingModule { }

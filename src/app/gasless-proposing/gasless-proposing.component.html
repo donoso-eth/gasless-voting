@@ -49,13 +49,17 @@
                                 <div style="display: flex;justify-content: center;">
                                     <div style="margin:20px">
                                         <span>Positive</span>
-                                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: 15px auto"
-                                        type="button" label="UpVote" class="p-button-rounded mr-2 mb-2"></button>
+                                        <br>
+                                        <span style="color: var(--primary-color);font-size:18px">{{positiveVotes}}</span>
+                                        <button  pButton pRipple style="margin: 15px auto"
+                                        type="button" label="UpVote" (click)="vote(true)" class="p-button-rounded mr-2 mb-2"></button>
                                     </div>
                                     <div style="margin:20px">
                                         <span>Negative</span>
-                                        <button [disabled]="proposalForm.invalid" pButton pRipple style="margin: 15px auto"
-                                        type="button" label="DownVote" class="p-button-rounded mr-2 mb-2"></button>
+                                        <br>
+                                        <span style="color: var(--primary-color);font-size:18px">{{negativeVotes}}</span>
+                                        <button  pButton pRipple style="margin: 15px auto"
+                                        type="button" label="DownVote" (click)="vote(false)" class="p-button-rounded mr-2 mb-2"></button>
                                     </div>   
 
                                 </div>

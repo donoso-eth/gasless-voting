@@ -23,6 +23,8 @@ export interface GaslessProposingInterface extends utils.Interface {
     "getProposalBytes()": FunctionFragment;
     "getProposalTimestamp()": FunctionFragment;
     "getStatus()": FunctionFragment;
+    "setVotingContract(address)": FunctionFragment;
+    "withdraw()": FunctionFragment;
   };
 
   encodeFunctionData(
@@ -42,6 +44,11 @@ export interface GaslessProposingInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "getStatus", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "setVotingContract",
+    values: [string]
+  ): string;
+  encodeFunctionData(functionFragment: "withdraw", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "_createProposal",
@@ -60,6 +67,11 @@ export interface GaslessProposingInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getStatus", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "setVotingContract",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
   events: {};
 }
@@ -106,6 +118,15 @@ export interface GaslessProposing extends BaseContract {
     getProposalTimestamp(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getStatus(overrides?: CallOverrides): Promise<[number]>;
+
+    setVotingContract(
+      _gaslessVoting: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
+    withdraw(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   _createProposal(
@@ -124,6 +145,15 @@ export interface GaslessProposing extends BaseContract {
 
   getStatus(overrides?: CallOverrides): Promise<number>;
 
+  setVotingContract(
+    _gaslessVoting: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  withdraw(
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     _createProposal(
       payload: BytesLike,
@@ -140,6 +170,13 @@ export interface GaslessProposing extends BaseContract {
     getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
     getStatus(overrides?: CallOverrides): Promise<number>;
+
+    setVotingContract(
+      _gaslessVoting: string,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    withdraw(overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -160,6 +197,15 @@ export interface GaslessProposing extends BaseContract {
     getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
     getStatus(overrides?: CallOverrides): Promise<BigNumber>;
+
+    setVotingContract(
+      _gaslessVoting: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
+    withdraw(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -180,5 +226,14 @@ export interface GaslessProposing extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getStatus(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    setVotingContract(
+      _gaslessVoting: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    withdraw(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
   };
 }

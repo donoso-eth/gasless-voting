@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -18,12 +19,12 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
 export interface IGaslessVotingInterface extends utils.Interface {
   functions: {
-    "_createProposal()": FunctionFragment;
+    "_createProposal(uint256,bytes)": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "_createProposal",
-    values?: undefined
+    values: [BigNumberish, BytesLike]
   ): string;
 
   decodeFunctionResult(
@@ -62,28 +63,40 @@ export interface IGaslessVoting extends BaseContract {
 
   functions: {
     _createProposal(
+      _proposalId: BigNumberish,
+      payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
   };
 
   _createProposal(
+    _proposalId: BigNumberish,
+    payload: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    _createProposal(overrides?: CallOverrides): Promise<void>;
+    _createProposal(
+      _proposalId: BigNumberish,
+      payload: BytesLike,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
     _createProposal(
+      _proposalId: BigNumberish,
+      payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     _createProposal(
+      _proposalId: BigNumberish,
+      payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };
