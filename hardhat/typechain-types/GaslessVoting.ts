@@ -44,6 +44,7 @@ export interface GaslessVotingInterface extends utils.Interface {
     "_createProposal(uint256,bytes)": FunctionFragment;
     "_votingProposal(bool,address)": FunctionFragment;
     "getProposalState()": FunctionFragment;
+    "isTrustedForwarder(address)": FunctionFragment;
     "proposalState(uint256)": FunctionFragment;
     "votingProposal(bool)": FunctionFragment;
     "withdraw()": FunctionFragment;
@@ -60,6 +61,10 @@ export interface GaslessVotingInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "getProposalState",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "isTrustedForwarder",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "proposalState",
@@ -81,6 +86,10 @@ export interface GaslessVotingInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getProposalState",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "isTrustedForwarder",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -139,6 +148,11 @@ export interface GaslessVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[ProposalStateStructOutput]>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<[boolean]>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -177,6 +191,11 @@ export interface GaslessVoting extends BaseContract {
   getProposalState(
     overrides?: CallOverrides
   ): Promise<ProposalStateStructOutput>;
+
+  isTrustedForwarder(
+    forwarder: string,
+    overrides?: CallOverrides
+  ): Promise<boolean>;
 
   proposalState(
     arg0: BigNumberish,
@@ -217,6 +236,11 @@ export interface GaslessVoting extends BaseContract {
       overrides?: CallOverrides
     ): Promise<ProposalStateStructOutput>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<boolean>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -252,6 +276,11 @@ export interface GaslessVoting extends BaseContract {
 
     getProposalState(overrides?: CallOverrides): Promise<BigNumber>;
 
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     proposalState(
       arg0: BigNumberish,
       overrides?: CallOverrides
@@ -281,6 +310,11 @@ export interface GaslessVoting extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getProposalState(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    isTrustedForwarder(
+      forwarder: string,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     proposalState(
       arg0: BigNumberish,

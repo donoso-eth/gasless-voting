@@ -2,11 +2,13 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
-import {GelatoRelayContext} from "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol";
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import {IGaslessVoting} from "./interfaces/IGaslessVoting.sol";
+
+import {GelatoRelayContext} from "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol";
+
 
 enum ProposalStatus {
   Ready,
@@ -38,7 +40,9 @@ contract GaslessProposing is GelatoRelayContext {
     owner = msg.sender;
   }
 
-  // @notice User external
+  // @notice 
+  // @dev external only Gelato relayer
+  // @dev transfer Fee to Geato with _transferRelayFee();
   function createProposal(bytes calldata payload) external onlyGelatoRelay {
     require(
       proposalStatus == ProposalStatus.Ready,

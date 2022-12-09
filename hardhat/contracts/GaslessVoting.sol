@@ -2,11 +2,10 @@
 pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
-import {GelatoRelayContext} from "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol";
 
-import {GelatoRelayContextERC2771} from "./gelato/GelatoRelayContextERC2771.sol";
-
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {
+    ERC2771Context
+} from "@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol";
 
 struct ProposalState {
   uint256 positive;
@@ -16,9 +15,8 @@ struct ProposalState {
   bytes payload;
 }
 
-contract GaslessVoting is GelatoRelayContextERC2771 {
-
-address immutable owner;
+contract GaslessVoting is ERC2771Context {
+  address immutable owner;
 
   // we only allow one proposal every 24 hours
   uint256 proposalValidity = 1 days;
@@ -34,25 +32,29 @@ address immutable owner;
 
   mapping(uint256 => mapping(address => bool)) alredyVotedById;
 
-  constructor(address _gasslessProposing) {
+  constructor(address _gasslessProposing) ERC2771Context(address(0xaBcC9b596420A9E9172FD5938620E265a0f9Df92)) {
     owner = msg.sender;
     gaslessProposing = _gasslessProposing;
   }
 
-
-  //  @voting proposal
-  function votingProposal(bool positive) external onlyGelatoRelay {
-    address voter = _getMsgSender();
-
-    _votingProposal(positive,voter);
-
-    _transferRelayFee();
+  modifier onlyTrustedForwarder() {
+    require(
+      isTrustedForwarder(msg.sender),
+      "Only callable by Trusted Forwarder"
+    );
+    _;
   }
 
-  //
-   function _votingProposal(bool positive, address voter) public {
-  
+  //  @notice voting proposal
+  //  @dev function called by the relaer implementing the onlyTrusted Forwarder
+  function votingProposal(bool positive) external onlyTrustedForwarder {
+    address voter = _msgSender();
 
+    _votingProposal(positive, voter);
+  }
+
+  // @dev internal function with the logic
+  function _votingProposal(bool positive, address voter) public {
     require(
       alredyVotedById[currentProposalId][voter] == false,
       "ALREADY_VOTED"
@@ -64,9 +66,7 @@ address immutable owner;
       proposalState[currentProposalId].negative++;
     }
 
-    alredyVotedById[currentProposalId][voter] =true;
-
-    
+    alredyVotedById[currentProposalId][voter] = true;
   }
 
   //
@@ -95,15 +95,17 @@ address immutable owner;
   }
 
   function withdraw() external onlyOwner returns (bool) {
-    (bool result, ) = payable(msg.sender).call{value: address(this).balance}("");
+    (bool result, ) = payable(msg.sender).call{value: address(this).balance}(
+      ""
+    );
     return result;
   }
 
-//Modifiers
-modifier onlyOwner () {
-  require(msg.sender == owner,'ONLY_OWNER');
-  _;
-}
+  //Modifiers
+  modifier onlyOwner() {
+    require(msg.sender == owner, "ONLY_OWNER");
+    _;
+  }
 
   modifier onlyGaslessProposing() {
     require(gaslessProposing == msg.sender, "ONLY_PROPOSING");

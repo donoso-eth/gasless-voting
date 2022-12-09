@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
-      "lastModificationDate": 1670499440994,
-      "contentHash": "6282ee00eb4c92a1b3f8798d0ef375a9",
+      "lastModificationDate": 1670519339605,
+      "contentHash": "744d57b9b10865fb4daa48f305863ada",
       "sourceName": "contracts/GaslessProposing.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -25,15 +25,14 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
         "hardhat/console.sol",
-        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "./interfaces/IGaslessVoting.sol"
+        "./interfaces/IGaslessVoting.sol",
+        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -66,8 +65,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -106,8 +104,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -142,8 +139,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -181,8 +177,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -225,8 +220,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -263,8 +257,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -304,8 +297,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -338,8 +330,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -374,8 +365,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -408,8 +398,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -444,8 +433,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -484,8 +472,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -520,8 +507,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -556,8 +542,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -594,8 +579,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -632,8 +616,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -670,8 +653,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -706,8 +688,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -744,8 +725,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -780,8 +760,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [],
@@ -816,8 +795,7 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
@@ -832,8 +810,8 @@
       ]
     },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessVoting.sol": {
-      "lastModificationDate": 1670516743887,
-      "contentHash": "4f45144de7999769d75b6914b14470be",
+      "lastModificationDate": 1670568068316,
+      "contentHash": "01deb1bab5cd95aec691543bfcdf02c9",
       "sourceName": "contracts/GaslessVoting.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -855,21 +833,90 @@
                 "ast"
               ]
             }
-          },
-          "libraries": {}
+          }
         }
       },
       "imports": [
         "hardhat/console.sol",
-        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
-        "./gelato/GelatoRelayContextERC2771.sol",
-        "@openzeppelin/contracts/token/ERC721/ERC721.sol"
+        "@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
       ],
       "artifacts": [
         "GaslessVoting"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol": {
+      "lastModificationDate": 1670500406308,
+      "contentHash": "4f22d029c333bb7d95820501b5049387",
+      "sourceName": "@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Context.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "ERC2771Context"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/node_modules/@gelatonetwork/relay-context/contracts/vendor/Context.sol": {
+      "lastModificationDate": 1670500406308,
+      "contentHash": "104d05bcea25f0ad8e1c76448dba0d54",
+      "sourceName": "@gelatonetwork/relay-context/contracts/vendor/Context.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.1"
+      ],
+      "artifacts": [
+        "Context"
       ]
     }
   }
