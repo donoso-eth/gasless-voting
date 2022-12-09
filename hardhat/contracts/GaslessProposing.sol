@@ -59,6 +59,7 @@ contract GaslessProposing is GelatoRelayContext {
     ops = _ops;
     owner = msg.sender;
     proposal.proposalStatus = ProposalStatus.Ready;
+    gelato = IOps(_ops).gelato();
   }
 
   // @notice

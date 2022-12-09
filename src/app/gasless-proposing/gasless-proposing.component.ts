@@ -78,6 +78,11 @@ export class GaslessProposingComponent extends DappBaseComponent {
   }
 
   async createProposal() {
+    if (!this.readyToPropose) {
+      alert("Not able to create proposals while one is running");
+    }
+
+
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
     let name = this.proposalForm.controls.nameCtrl.value;
     let description = this.proposalForm.controls.descriptionCtrl.value;
@@ -124,7 +129,7 @@ export class GaslessProposingComponent extends DappBaseComponent {
         user: this.dapp.signerAddress!, //user sending the trasnaction
       };
 
-      const sponsorApiKey = 'atDEVr2o4aHnwPBVSmJ7eX4_qLsCX07hkZuXT3s7G4I_';
+      const sponsorApiKey = 'gUTo12LadpXQBHdxL5nOYAjrDebBRt0c03HNaNze9oc_';
 
       const relayResponse = await GelatoRelaySDK.relayWithSponsoredUserAuthCall(
         request,

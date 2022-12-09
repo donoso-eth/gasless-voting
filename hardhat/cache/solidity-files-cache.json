@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
-      "lastModificationDate": 1670604457545,
-      "contentHash": "405348e01c1266f1469ae9a4974c997b",
+      "lastModificationDate": 1670610088106,
+      "contentHash": "9860b9219291bdf93128386d0afa2164",
       "sourceName": "contracts/GaslessProposing.sol",
       "solcConfig": {
         "version": "0.8.17",
