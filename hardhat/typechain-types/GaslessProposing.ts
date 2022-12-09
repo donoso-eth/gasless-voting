@@ -4,6 +4,7 @@
 import {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -12,17 +13,28 @@ import {
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result } from "@ethersproject/abi";
+import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
+
+export type ProposalStruct = {
+  proposalStatus: BigNumberish;
+  taskId: BytesLike;
+  proposalId: BigNumberish;
+};
+
+export type ProposalStructOutput = [number, string, BigNumber] & {
+  proposalStatus: number;
+  taskId: string;
+  proposalId: BigNumber;
+};
 
 export interface GaslessProposingInterface extends utils.Interface {
   functions: {
     "ETH()": FunctionFragment;
-    "_createProposal(bytes)": FunctionFragment;
-    "balanceTreasuryTask()": FunctionFragment;
     "createProposal(bytes)": FunctionFragment;
     "finishVoting()": FunctionFragment;
+    "finishingVotingTask()": FunctionFragment;
     "gelato()": FunctionFragment;
     "getProposalBytes()": FunctionFragment;
     "getProposalTimestamp()": FunctionFragment;
@@ -34,19 +46,15 @@ export interface GaslessProposingInterface extends utils.Interface {
 
   encodeFunctionData(functionFragment: "ETH", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "_createProposal",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "balanceTreasuryTask",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "createProposal",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
     functionFragment: "finishVoting",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "finishingVotingTask",
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "gelato", values?: undefined): string;
@@ -68,19 +76,15 @@ export interface GaslessProposingInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "ETH", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "_createProposal",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "balanceTreasuryTask",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "createProposal",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "finishVoting",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "finishingVotingTask",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "gelato", data: BytesLike): Result;
@@ -100,8 +104,16 @@ export interface GaslessProposingInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "ProposalCreated(bytes32)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "ProposalCreated"): EventFragment;
 }
+
+export type ProposalCreatedEvent = TypedEvent<[string], { taskId: string }>;
+
+export type ProposalCreatedEventFilter = TypedEventFilter<ProposalCreatedEvent>;
 
 export interface GaslessProposing extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -132,13 +144,6 @@ export interface GaslessProposing extends BaseContract {
   functions: {
     ETH(overrides?: CallOverrides): Promise<[string]>;
 
-    _createProposal(
-      payload: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
-
-    balanceTreasuryTask(overrides?: CallOverrides): Promise<[string]>;
-
     createProposal(
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -148,13 +153,15 @@ export interface GaslessProposing extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    finishingVotingTask(overrides?: CallOverrides): Promise<[string]>;
+
     gelato(overrides?: CallOverrides): Promise<[string]>;
 
     getProposalBytes(overrides?: CallOverrides): Promise<[string]>;
 
     getProposalTimestamp(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    getStatus(overrides?: CallOverrides): Promise<[number]>;
+    getStatus(overrides?: CallOverrides): Promise<[ProposalStructOutput]>;
 
     ops(overrides?: CallOverrides): Promise<[string]>;
 
@@ -170,13 +177,6 @@ export interface GaslessProposing extends BaseContract {
 
   ETH(overrides?: CallOverrides): Promise<string>;
 
-  _createProposal(
-    payload: BytesLike,
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
-
-  balanceTreasuryTask(overrides?: CallOverrides): Promise<string>;
-
   createProposal(
     payload: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
@@ -186,13 +186,15 @@ export interface GaslessProposing extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  finishingVotingTask(overrides?: CallOverrides): Promise<string>;
+
   gelato(overrides?: CallOverrides): Promise<string>;
 
   getProposalBytes(overrides?: CallOverrides): Promise<string>;
 
   getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
-  getStatus(overrides?: CallOverrides): Promise<number>;
+  getStatus(overrides?: CallOverrides): Promise<ProposalStructOutput>;
 
   ops(overrides?: CallOverrides): Promise<string>;
 
@@ -208,13 +210,6 @@ export interface GaslessProposing extends BaseContract {
   callStatic: {
     ETH(overrides?: CallOverrides): Promise<string>;
 
-    _createProposal(
-      payload: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    balanceTreasuryTask(overrides?: CallOverrides): Promise<string>;
-
     createProposal(
       payload: BytesLike,
       overrides?: CallOverrides
@@ -222,13 +217,15 @@ export interface GaslessProposing extends BaseContract {
 
     finishVoting(overrides?: CallOverrides): Promise<void>;
 
+    finishingVotingTask(overrides?: CallOverrides): Promise<string>;
+
     gelato(overrides?: CallOverrides): Promise<string>;
 
     getProposalBytes(overrides?: CallOverrides): Promise<string>;
 
     getProposalTimestamp(overrides?: CallOverrides): Promise<BigNumber>;
 
-    getStatus(overrides?: CallOverrides): Promise<number>;
+    getStatus(overrides?: CallOverrides): Promise<ProposalStructOutput>;
 
     ops(overrides?: CallOverrides): Promise<string>;
 
@@ -240,17 +237,13 @@ export interface GaslessProposing extends BaseContract {
     withdraw(overrides?: CallOverrides): Promise<boolean>;
   };
 
-  filters: {};
+  filters: {
+    "ProposalCreated(bytes32)"(taskId?: null): ProposalCreatedEventFilter;
+    ProposalCreated(taskId?: null): ProposalCreatedEventFilter;
+  };
 
   estimateGas: {
     ETH(overrides?: CallOverrides): Promise<BigNumber>;
-
-    _createProposal(
-      payload: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
-
-    balanceTreasuryTask(overrides?: CallOverrides): Promise<BigNumber>;
 
     createProposal(
       payload: BytesLike,
@@ -260,6 +253,8 @@ export interface GaslessProposing extends BaseContract {
     finishVoting(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    finishingVotingTask(overrides?: CallOverrides): Promise<BigNumber>;
 
     gelato(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -284,15 +279,6 @@ export interface GaslessProposing extends BaseContract {
   populateTransaction: {
     ETH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    _createProposal(
-      payload: BytesLike,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
-
-    balanceTreasuryTask(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     createProposal(
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
@@ -300,6 +286,10 @@ export interface GaslessProposing extends BaseContract {
 
     finishVoting(
       overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    finishingVotingTask(
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     gelato(overrides?: CallOverrides): Promise<PopulatedTransaction>;

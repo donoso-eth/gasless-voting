@@ -21,4 +21,6 @@ interface IGaslessVoting {
 // @notice User external 
 function _createProposal(uint256 _proposalId, bytes memory payload) external;
 
+function _finishProposal() external;
+
 }

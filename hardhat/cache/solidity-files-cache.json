@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
-      "lastModificationDate": 1670572640099,
-      "contentHash": "1c3b149d4ae2ebd2f9b5d945ba765806",
+      "lastModificationDate": 1670604457545,
+      "contentHash": "405348e01c1266f1469ae9a4974c997b",
       "sourceName": "contracts/GaslessProposing.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -25,7 +25,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -44,8 +45,8 @@
       ]
     },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/interfaces/IGaslessVoting.sol": {
-      "lastModificationDate": 1670516762427,
-      "contentHash": "5da4b00990cc2f5d7f019c17c4a77dcd",
+      "lastModificationDate": 1670603396337,
+      "contentHash": "6bb2f2c25e3e0cf6690252ccbe685dbb",
       "sourceName": "contracts/interfaces/IGaslessVoting.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -67,7 +68,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -80,6 +82,80 @@
       ],
       "artifacts": [
         "IGaslessVoting"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/IOps.sol": {
+      "lastModificationDate": 1670578487917,
+      "contentHash": "33e3f2e57a118e5c21fe3f6832e70dc9",
+      "sourceName": "contracts/gelato/IOps.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {}
+        }
+      },
+      "imports": [
+        "./LibDataTypes.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IOps"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/LibDataTypes.sol": {
+      "lastModificationDate": 1670571430057,
+      "contentHash": "27c5fe3e4627385ec61577e7e119cd86",
+      "sourceName": "contracts/gelato/LibDataTypes.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          },
+          "libraries": {}
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "LibDataTypes"
       ]
     },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/node_modules/hardhat/console.sol": {
@@ -106,7 +182,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -141,7 +218,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -179,7 +257,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -222,7 +301,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -259,7 +339,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -299,7 +380,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -332,7 +414,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -367,7 +450,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -400,7 +484,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -435,7 +520,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -474,7 +560,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -509,7 +596,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -544,7 +632,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -581,7 +670,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -618,7 +708,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -655,7 +746,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -690,7 +782,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -727,7 +820,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -762,7 +856,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -774,8 +869,8 @@
       ]
     },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessVoting.sol": {
-      "lastModificationDate": 1670568153023,
-      "contentHash": "985526f88bea195a7529a1d02bf0edf2",
+      "lastModificationDate": 1670604412195,
+      "contentHash": "5d436c267e94fb7b1db2576b04a28c86",
       "sourceName": "contracts/GaslessVoting.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -797,7 +892,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -835,7 +931,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [
@@ -872,7 +969,8 @@
                 "ast"
               ]
             }
-          }
+          },
+          "libraries": {}
         }
       },
       "imports": [],
@@ -881,113 +979,6 @@
       ],
       "artifacts": [
         "Context"
-      ]
-    },
-    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/IOps.sol": {
-      "lastModificationDate": 1670578487917,
-      "contentHash": "33e3f2e57a118e5c21fe3f6832e70dc9",
-      "sourceName": "contracts/gelato/IOps.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "./LibDataTypes.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "IOps"
-      ]
-    },
-    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/LibDataTypes.sol": {
-      "lastModificationDate": 1670571430057,
-      "contentHash": "27c5fe3e4627385ec61577e7e119cd86",
-      "sourceName": "contracts/gelato/LibDataTypes.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "LibDataTypes"
-      ]
-    },
-    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/ITaskTreasuryUpgradable.sol": {
-      "lastModificationDate": 1670571430041,
-      "contentHash": "531564916473eec779721ab283e7a9cb",
-      "sourceName": "contracts/gelato/ITaskTreasuryUpgradable.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.0"
-      ],
-      "artifacts": [
-        "ITaskTreasuryUpgradable"
       ]
     }
   }

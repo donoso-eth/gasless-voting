@@ -54,10 +54,11 @@ if (network == undefined) {
   
   //// DEPLOY POOL IMPL
   let toDeployContract;
+  let ops = "0xc1C6805B857Bef1f412519C4A842522431aFed39"
 
   let nonce = await deployer.getTransactionCount();
  
-  const gasLessProposing = await new GaslessProposing__factory(deployer).deploy({ gasLimit: 10000000, nonce: nonce });
+  const gasLessProposing = await new GaslessProposing__factory(deployer).deploy(ops,{ gasLimit: 10000000, nonce: nonce });
 
   const gasLessVoting = await new GaslessVoting__factory(deployer).deploy(gasLessProposing.address,{ gasLimit: 10000000, nonce: nonce +1 });
 
@@ -66,7 +67,7 @@ if (network == undefined) {
   let initialPoolEth = hre.ethers.utils.parseEther('0.5');
 
   await deployer.sendTransaction({ to: gasLessProposing.address, value: initialPoolEth, gasLimit: 10000000, nonce: nonce + 3 });
-  await deployer.sendTransaction({ to: gasLessVoting.address, value: initialPoolEth, gasLimit: 10000000, nonce: nonce + 4 });
+  //await deployer.sendTransaction({ to: gasLessVoting.address, value: initialPoolEth, gasLimit: 10000000, nonce: nonce + 4 });
 
   toDeployContract = contract_config[deployContracts[0]];
   writeFileSync(

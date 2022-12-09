@@ -7,11 +7,18 @@ import {
     ERC2771Context
 } from "@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol";
 
+enum VotingStatus {
+  VOTING,
+  APPROVED,
+  CANCELLED
+}
+
 struct ProposalState {
   uint256 positive;
   uint256 negative;
   uint256 proposalTimestamp;
   uint256 currentProposalId;
+  VotingStatus votingStatus;
   bytes payload;
 }
 
@@ -74,6 +81,16 @@ contract GaslessVoting is ERC2771Context {
     return proposalState[currentProposalId];
   }
 
+ // 
+ function getProsalStateById(uint256 _id) public view returns (ProposalState memory) {
+    return proposalState[_id];
+  }
+
+//
+function getCurrentProposalId() public view returns (uint256) {
+    return currentProposalId;
+  }
+
   // @notice User external
   function _createProposal(
     uint256 _proposalId,
@@ -86,9 +103,21 @@ contract GaslessVoting is ERC2771Context {
       0,
       block.timestamp,
       _proposalId,
+      VotingStatus.VOTING,
       payload
     );
   }
+
+    function _finishProposal(
+  ) external onlyGaslessProposing {
+  
+    ProposalState memory currentProposal = getProposalState();
+    uint256  positive = currentProposal.positive;
+    uint256 negative = currentProposal.negative;
+    proposalState[currentProposalId].votingStatus = positive > negative ? VotingStatus.APPROVED : VotingStatus.CANCELLED;
+
+  }
+
 
   receive() external payable {
     console.log("----- receive:", msg.value);

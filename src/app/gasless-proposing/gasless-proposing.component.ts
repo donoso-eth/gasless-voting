@@ -48,8 +48,8 @@ export class GaslessProposingComponent extends DappBaseComponent {
   ) {
     super(dapp, store);
     this.proposalForm = this.formBuilder.group({
-      nameCtrl: ['test', [Validators.required]],
-      descriptionCtrl: ['test2', [Validators.required]],
+      nameCtrl: ['', [Validators.required]],
+      descriptionCtrl: ['', [Validators.required]],
     });
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
     this.abiCoder = new utils.AbiCoder();
@@ -63,6 +63,10 @@ export class GaslessProposingComponent extends DappBaseComponent {
       GaslessPoposingMetadata.abi,
       provider
     ) as GaslessProposing;
+
+    this.readGaslessProposing.on("ProposalCreated", (taskId) => {
+      console.log(taskId);
+  });
 
     this.readGaslessVoting = new Contract(
       GaslessVotingMetadata.address,
@@ -100,6 +104,7 @@ export class GaslessProposingComponent extends DappBaseComponent {
 
     // send relayRequest to Gelato Relay API
     const relayResponse = await GelatoRelaySDK.relayWithSyncFee(request);
+    console.log(relayResponse);
 
     this.getState();
   }
@@ -108,25 +113,26 @@ export class GaslessProposingComponent extends DappBaseComponent {
     try {
       this.store.dispatch(Web3Actions.chainBusy({ status: true }));
 
-      await this.gaslessVoting._votingProposal(value, this.dapp.signerAddress!);
-
+     
       const { data } =
         await this.gaslessVoting.populateTransaction.votingProposal(value);
 
       const request = {
         chainId: 5, // Goerli in this case
-        target: this.readGaslessProposing.address, // target contract address
+        target: this.readGaslessVoting.address, // target contract address
         data: data!, // encoded transaction datas
-        user: this.dapp.signerAddress!,
+        user: this.dapp.signerAddress!, //user sending the trasnaction
       };
 
-      const sponsorApiKey = '';
+      const sponsorApiKey = 'atDEVr2o4aHnwPBVSmJ7eX4_qLsCX07hkZuXT3s7G4I_';
 
       const relayResponse = await GelatoRelaySDK.relayWithSponsoredUserAuthCall(
         request,
         this.dapp.DAPP_STATE.defaultProvider,
         sponsorApiKey
       );
+
+        console.log(relayResponse);
 
       await this.getState();
     } catch (error) {
@@ -148,12 +154,16 @@ export class GaslessProposingComponent extends DappBaseComponent {
     this.descriptionProposal = '';
     this.lastProposalTimestamp = 0;
 
+
+
     this.readyToPropose =
-      (await this.readGaslessProposing.getStatus()) == 0 ? true : false;
+      (await this.readGaslessProposing.getStatus()).proposalStatus == 0 ? true : false;
 
     if (this.readyToPropose == false) {
       let result =
         (await this.readGaslessVoting.getProposalState()) as ProposalStateStructOutput;
+
+  
 
       [this.nameProposal, this.descriptionProposal] = this.abiCoder.decode(
         ['string', 'string'],

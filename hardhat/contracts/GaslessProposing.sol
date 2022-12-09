@@ -17,7 +17,18 @@ enum ProposalStatus {
   Voting
 }
 
+struct Proposal {
+   ProposalStatus proposalStatus ;
+   bytes32 taskId;
+    uint256 proposalId;
+}
+
+
 contract GaslessProposing is GelatoRelayContext {
+
+  event ProposalCreated(bytes32 taskId);
+
+
   // owner
   address immutable owner;
 
@@ -30,7 +41,7 @@ contract GaslessProposing is GelatoRelayContext {
   uint256 proposalId = 0;
 
   // Initial Status
-  ProposalStatus proposalStatus = ProposalStatus.Ready;
+  Proposal proposal;
 
   // Proposal init
   uint256 proposalTimestamp = 0;
@@ -38,61 +49,57 @@ contract GaslessProposing is GelatoRelayContext {
   // bytes
   bytes proposalBytes;
 
-
-    //// GELATO
-    IOps public ops;
-    address payable public gelato;
-    address public constant ETH = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
-    bytes32 public balanceTreasuryTask;
-
+  //// GELATO
+  IOps public ops;
+  address payable public gelato;
+  address public constant ETH = 0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE;
+  bytes32 public finishingVotingTask;
 
   constructor(IOps _ops) {
     ops = _ops;
     owner = msg.sender;
+    proposal.proposalStatus = ProposalStatus.Ready;
   }
 
-  // @notice 
+  // @notice
   // @dev external only Gelato relayer
   // @dev transfer Fee to Geato with _transferRelayFee();
   function createProposal(bytes calldata payload) external onlyGelatoRelay {
     require(
-      proposalStatus == ProposalStatus.Ready,
+      proposal.proposalStatus == ProposalStatus.Ready,
       "OLD_PROPOSAL_STILL_ACTIVE"
     );
 
     _transferRelayFee();
 
     proposalId++;
-    proposalStatus = ProposalStatus.Voting;
+    proposal.proposalStatus = ProposalStatus.Voting;
+    proposal.proposalId = proposalId;
     proposalTimestamp = block.timestamp;
     proposalBytes = payload;
     IGaslessVoting(gaslessVoting)._createProposal(proposalId, payload);
 
-    createFinishVotingTask();
-  }
-
-  function _createProposal(bytes calldata payload) public {
-    require(
-      proposalStatus == ProposalStatus.Ready,
-      "OLD_PROPOSAL_STILL_ACTIVE"
-    );
-    proposalId++;
-    proposalStatus = ProposalStatus.Voting;
-    proposalTimestamp = block.timestamp;
-    proposalBytes = payload;
-    IGaslessVoting(gaslessVoting)._createProposal(proposalId, payload);
+   finishingVotingTask =  createFinishVotingTask();
+   proposal.taskId = finishingVotingTask;
+    emit ProposalCreated(finishingVotingTask);
   }
 
 
   // #region  ========== =============  GELATO OPS AUTOMATE CLOSING PROPOSAL  ============= ============= //
 
-    function createFinishVotingTask () internal returns (bytes32 taskId) {
-    bytes memory timeArgs = abi.encode(uint128(block.timestamp + proposalValidity), proposalValidity);
+  //@dev creating the  gelato task
+  function createFinishVotingTask() internal returns (bytes32 taskId) {
+    bytes memory timeArgs = abi.encode(
+      uint128(block.timestamp + proposalValidity),
+      proposalValidity
+    );
 
+    //@dev executing function encoded
     bytes memory execData = abi.encodeWithSelector(this.finishVoting.selector);
 
     LibDataTypes.Module[] memory modules = new LibDataTypes.Module[](2);
 
+    //@dev using execution prefixed at a certain interval and soing only one execution
     modules[0] = LibDataTypes.Module.TIME;
     modules[1] = LibDataTypes.Module.SINGLE_EXEC;
 
@@ -100,31 +107,38 @@ contract GaslessProposing is GelatoRelayContext {
 
     args[0] = timeArgs;
 
-    LibDataTypes.ModuleData memory moduleData = LibDataTypes.ModuleData(modules, args);
+    LibDataTypes.ModuleData memory moduleData = LibDataTypes.ModuleData(
+      modules,
+      args
+    );
 
+    //@dev  task creation
     taskId = IOps(ops).createTask(address(this), execData, moduleData, ETH);
-   }
+  }
 
+  //@dev executing function to be called by Gelato
   function finishVoting() public onlyOps {
     (uint256 fee, address feeToken) = IOps(ops).getFeeDetails();
 
     transfer(fee, feeToken);
+    proposal.proposalStatus = ProposalStatus.Ready;
+    IGaslessVoting(gaslessVoting)._finishProposal();
+
   }
 
+  //@dev transfer fees to Gelato
   function transfer(uint256 _amount, address _paymentToken) internal {
-    // _transfer(_amount, _paymentToken);
-    // callInternal(abi.encodeWithSignature("_transfer(uint256,address)", _amount, _paymentToken));
     (bool success, ) = gelato.call{value: _amount}("");
     require(success, "_transfer: ETH transfer failed");
   }
 
-    modifier onlyOps() {
+  //@dev only Gelato modifier
+  modifier onlyOps() {
     require(msg.sender == address(ops), "OpsReady: onlyOps");
     _;
   }
 
- // #endregion  ========== =============  GELATO OPS AUTOMATE CLOSING PROPOSAL  ============= ============= //
-
+  // #endregion  ========== =============  GELATO OPS AUTOMATE CLOSING PROPOSAL  ============= ============= //
 
   //region ========== =============  ADMIN  ============= ============= //
 
@@ -134,8 +148,8 @@ contract GaslessProposing is GelatoRelayContext {
   }
 
   // View Funcitons
-  function getStatus() public view returns (ProposalStatus) {
-    return proposalStatus;
+  function getStatus() public view returns (Proposal memory) {
+    return proposal;
   }
 
   function getProposalTimestamp() public view returns (uint256) {

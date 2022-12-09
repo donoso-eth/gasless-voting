@@ -20,15 +20,24 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface IGaslessVotingInterface extends utils.Interface {
   functions: {
     "_createProposal(uint256,bytes)": FunctionFragment;
+    "_finishProposal()": FunctionFragment;
   };
 
   encodeFunctionData(
     functionFragment: "_createProposal",
     values: [BigNumberish, BytesLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "_finishProposal",
+    values?: undefined
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "_createProposal",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "_finishProposal",
     data: BytesLike
   ): Result;
 
@@ -67,11 +76,19 @@ export interface IGaslessVoting extends BaseContract {
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    _finishProposal(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
   };
 
   _createProposal(
     _proposalId: BigNumberish,
     payload: BytesLike,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
+  _finishProposal(
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -81,6 +98,8 @@ export interface IGaslessVoting extends BaseContract {
       payload: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    _finishProposal(overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
@@ -91,12 +110,20 @@ export interface IGaslessVoting extends BaseContract {
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    _finishProposal(
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
     _createProposal(
       _proposalId: BigNumberish,
       payload: BytesLike,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
+    _finishProposal(
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
   };

@@ -13,7 +13,6 @@ export type { IERC165 } from "./IERC165";
 export type { GaslessProposing } from "./GaslessProposing";
 export type { GaslessVoting } from "./GaslessVoting";
 export type { IOps } from "./IOps";
-export type { ITaskTreasuryUpgradable } from "./ITaskTreasuryUpgradable";
 export type { IGaslessVoting } from "./IGaslessVoting";
 
 export { ERC2771Context__factory } from "./factories/ERC2771Context__factory";
@@ -28,5 +27,4 @@ export { IERC165__factory } from "./factories/IERC165__factory";
 export { GaslessProposing__factory } from "./factories/GaslessProposing__factory";
 export { GaslessVoting__factory } from "./factories/GaslessVoting__factory";
 export { IOps__factory } from "./factories/IOps__factory";
-export { ITaskTreasuryUpgradable__factory } from "./factories/ITaskTreasuryUpgradable__factory";
 export { IGaslessVoting__factory } from "./factories/IGaslessVoting__factory";
