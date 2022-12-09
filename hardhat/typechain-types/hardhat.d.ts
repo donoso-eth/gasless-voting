@@ -57,6 +57,14 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.GaslessVoting__factory>;
     getContractFactory(
+      name: "IOps",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IOps__factory>;
+    getContractFactory(
+      name: "ITaskTreasuryUpgradable",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.ITaskTreasuryUpgradable__factory>;
+    getContractFactory(
       name: "IGaslessVoting",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IGaslessVoting__factory>;
@@ -116,6 +124,16 @@ declare module "hardhat/types/runtime" {
       address: string,
       signer?: ethers.Signer
     ): Promise<Contracts.GaslessVoting>;
+    getContractAt(
+      name: "IOps",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IOps>;
+    getContractAt(
+      name: "ITaskTreasuryUpgradable",
+      address: string,
+      signer?: ethers.Signer
+    ): Promise<Contracts.ITaskTreasuryUpgradable>;
     getContractAt(
       name: "IGaslessVoting",
       address: string,

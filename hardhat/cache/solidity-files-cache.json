@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessProposing.sol": {
-      "lastModificationDate": 1670519339605,
-      "contentHash": "744d57b9b10865fb4daa48f305863ada",
+      "lastModificationDate": 1670572640099,
+      "contentHash": "1c3b149d4ae2ebd2f9b5d945ba765806",
       "sourceName": "contracts/GaslessProposing.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -32,7 +32,9 @@
         "hardhat/console.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
         "./interfaces/IGaslessVoting.sol",
-        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol"
+        "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol",
+        "./gelato/IOps.sol",
+        "./gelato/LibDataTypes.sol"
       ],
       "versionPragmas": [
         "^0.8.0"
@@ -771,47 +773,9 @@
         "IERC165"
       ]
     },
-    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/GelatoRelayContextERC2771.sol": {
-      "lastModificationDate": 1670516631693,
-      "contentHash": "46148f0692f212ccbde34f78bada8738",
-      "sourceName": "contracts/gelato/GelatoRelayContextERC2771.sol",
-      "solcConfig": {
-        "version": "0.8.17",
-        "settings": {
-          "optimizer": {
-            "enabled": true,
-            "runs": 1000
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@gelatonetwork/relay-context/contracts/base/GelatoRelayBase.sol",
-        "@gelatonetwork/relay-context/contracts/lib/TokenUtils.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.1"
-      ],
-      "artifacts": [
-        "GelatoRelayContextERC2771"
-      ]
-    },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/GaslessVoting.sol": {
-      "lastModificationDate": 1670568068316,
-      "contentHash": "01deb1bab5cd95aec691543bfcdf02c9",
+      "lastModificationDate": 1670568153023,
+      "contentHash": "985526f88bea195a7529a1d02bf0edf2",
       "sourceName": "contracts/GaslessVoting.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -917,6 +881,114 @@
       ],
       "artifacts": [
         "Context"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/IOps.sol": {
+      "lastModificationDate": 1670571430035,
+      "contentHash": "3b694f2b70fbf3eacfd9472ffeb91fa2",
+      "sourceName": "contracts/gelato/IOps.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./LibDataTypes.sol",
+        "./ITaskTreasuryUpgradable.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "IOps"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/LibDataTypes.sol": {
+      "lastModificationDate": 1670571430057,
+      "contentHash": "27c5fe3e4627385ec61577e7e119cd86",
+      "sourceName": "contracts/gelato/LibDataTypes.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "LibDataTypes"
+      ]
+    },
+    "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/ITaskTreasuryUpgradable.sol": {
+      "lastModificationDate": 1670571430041,
+      "contentHash": "531564916473eec779721ab283e7a9cb",
+      "sourceName": "contracts/gelato/ITaskTreasuryUpgradable.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": true,
+            "runs": 1000
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "ITaskTreasuryUpgradable"
       ]
     }
   }

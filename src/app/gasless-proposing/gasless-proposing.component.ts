@@ -14,6 +14,7 @@ import {
 } from 'src/assets/contracts/interfaces/GaslessVoting';
 import GaslessVotingMetadata from 'src/assets/contracts/gasless_voting_metadata.json';
 import { MessageService } from 'primeng/api';
+
 import { GelatoRelaySDK } from '@gelatonetwork/relay-sdk';
 
 @Component({
@@ -81,27 +82,24 @@ export class GaslessProposingComponent extends DappBaseComponent {
       ['string', 'string'],
       [name, description]
     );
-    //await this.readGaslessProposing.createProposal(payload);
 
     const feeToken = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
     const { data } =
-      await this.readGaslessProposing.populateTransaction.createProposal(payload);
+      await this.readGaslessProposing.populateTransaction.createProposal(
+        payload
+      );
 
     // populate the relay SDK request body
     const request = {
-      chainId: 5,
-      target: this.readGaslessProposing.address,
-      data: data!,
-      isRelayContext: true,
-      feeToken: feeToken,
+      chainId: 5, // Goerli in this case
+      target: this.readGaslessProposing.address, // target contract address
+      data: data!, // encoded transaction datas
+      isRelayContext: true, // are we using context contracts
+      feeToken: feeToken, // token to pay the relayer
     };
-
-    console.log(JSON.stringify(request));
 
     // send relayRequest to Gelato Relay API
     const relayResponse = await GelatoRelaySDK.relayWithSyncFee(request);
-
-    console.log(relayResponse);
 
     this.getState();
   }
@@ -109,9 +107,27 @@ export class GaslessProposingComponent extends DappBaseComponent {
   async vote(value: boolean) {
     try {
       this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-      
 
       await this.gaslessVoting._votingProposal(value, this.dapp.signerAddress!);
+
+      const { data } =
+        await this.gaslessVoting.populateTransaction.votingProposal(value);
+
+      const request = {
+        chainId: 5, // Goerli in this case
+        target: this.readGaslessProposing.address, // target contract address
+        data: data!, // encoded transaction datas
+        user: this.dapp.signerAddress!,
+      };
+
+      const sponsorApiKey = '';
+
+      const relayResponse = await GelatoRelaySDK.relayWithSponsoredUserAuthCall(
+        request,
+        this.dapp.DAPP_STATE.defaultProvider,
+        sponsorApiKey
+      );
+
       await this.getState();
     } catch (error) {
       this.messageService.add({
@@ -173,8 +189,4 @@ export class GaslessProposingComponent extends DappBaseComponent {
 
     this.getState();
   }
-
-
-
 }
-
