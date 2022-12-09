@@ -41,7 +41,6 @@ export interface IOpsInterface extends utils.Interface {
     "getFeeDetails()": FunctionFragment;
     "getTaskIdsByUser(address)": FunctionFragment;
     "setModule(uint8[],address[])": FunctionFragment;
-    "taskTreasury()": FunctionFragment;
     "timedTask(bytes32)": FunctionFragment;
   };
 
@@ -84,10 +83,6 @@ export interface IOpsInterface extends utils.Interface {
     values: [BigNumberish[], string[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "taskTreasury",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "timedTask",
     values: [BytesLike]
   ): string;
@@ -109,10 +104,6 @@ export interface IOpsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "setModule", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "taskTreasury",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "timedTask", data: BytesLike): Result;
 
   events: {};
@@ -194,8 +185,6 @@ export interface IOps extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    taskTreasury(overrides?: CallOverrides): Promise<[string]>;
-
     timedTask(
       arg0: BytesLike,
       overrides?: CallOverrides
@@ -251,8 +240,6 @@ export interface IOps extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  taskTreasury(overrides?: CallOverrides): Promise<string>;
-
   timedTask(
     arg0: BytesLike,
     overrides?: CallOverrides
@@ -304,8 +291,6 @@ export interface IOps extends BaseContract {
       moduleAddresses: string[],
       overrides?: CallOverrides
     ): Promise<void>;
-
-    taskTreasury(overrides?: CallOverrides): Promise<string>;
 
     timedTask(
       arg0: BytesLike,
@@ -365,8 +350,6 @@ export interface IOps extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    taskTreasury(overrides?: CallOverrides): Promise<BigNumber>;
-
     timedTask(arg0: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
@@ -419,8 +402,6 @@ export interface IOps extends BaseContract {
       moduleAddresses: string[],
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
-
-    taskTreasury(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     timedTask(
       arg0: BytesLike,

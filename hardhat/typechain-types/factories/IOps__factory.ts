@@ -234,19 +234,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "taskTreasury",
-    outputs: [
-      {
-        internalType: "contract ITaskTreasuryUpgradable",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "bytes32",

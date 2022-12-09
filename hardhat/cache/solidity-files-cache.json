@@ -884,8 +884,8 @@
       ]
     },
     "/Users/javiermac/Documents/GELATO/dApps/gasless-voting/hardhat/contracts/gelato/IOps.sol": {
-      "lastModificationDate": 1670571430035,
-      "contentHash": "3b694f2b70fbf3eacfd9472ffeb91fa2",
+      "lastModificationDate": 1670578487917,
+      "contentHash": "33e3f2e57a118e5c21fe3f6832e70dc9",
       "sourceName": "contracts/gelato/IOps.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -911,8 +911,7 @@
         }
       },
       "imports": [
-        "./LibDataTypes.sol",
-        "./ITaskTreasuryUpgradable.sol"
+        "./LibDataTypes.sol"
       ],
       "versionPragmas": [
         "^0.8.0"

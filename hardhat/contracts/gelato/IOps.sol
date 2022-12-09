@@ -2,7 +2,6 @@
 pragma solidity ^0.8.0;
 
 import {LibDataTypes} from "./LibDataTypes.sol";
-import {ITaskTreasuryUpgradable} from "./ITaskTreasuryUpgradable.sol";
 
 interface IOps {
 
@@ -93,12 +92,7 @@ interface IOps {
         view
         returns (bytes32[] memory);
 
-    /**
-     * @notice TaskTreasury contract where user deposit funds to be used for fee payments.
-     *
-     * @return ITaskTreasuryUpgradable TaskTreasury contract interface
-     */
-    function taskTreasury() external view returns (ITaskTreasuryUpgradable);
+
   function timedTask(bytes32) external view returns (Time memory) ;
 
       /// @notice Create a task that tells Gelato to monitor and execute transactions on specific contracts
