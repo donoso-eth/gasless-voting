@@ -10,7 +10,7 @@ const routes: Routes = [
         (m) => m.GaslessProposingModule
       ),
   },
-];
+  { path: 'docs', loadChildren: () => import('./docs/docs.module').then(m => m.DocsModule) }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
