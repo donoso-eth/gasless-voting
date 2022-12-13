@@ -13,7 +13,7 @@ import {
   Signer,
   utils,
 } from "ethers";
-import { FunctionFragment, Result } from "@ethersproject/abi";
+import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
@@ -132,8 +132,16 @@ export interface GaslessVotingInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "withdraw", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "ProposalVoted()": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "ProposalVoted"): EventFragment;
 }
+
+export type ProposalVotedEvent = TypedEvent<[], {}>;
+
+export type ProposalVotedEventFilter = TypedEventFilter<ProposalVotedEvent>;
 
 export interface GaslessVoting extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -323,7 +331,10 @@ export interface GaslessVoting extends BaseContract {
     withdraw(overrides?: CallOverrides): Promise<boolean>;
   };
 
-  filters: {};
+  filters: {
+    "ProposalVoted()"(): ProposalVotedEventFilter;
+    ProposalVoted(): ProposalVotedEventFilter;
+  };
 
   estimateGas: {
     _createProposal(

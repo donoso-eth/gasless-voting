@@ -1738,14 +1738,14 @@ p-treeselect.ng-invalid.ng-dirty > .p-treeselect {
   border-radius: 6px;
 }
 .p-button:enabled:hover {
-  background: #4fe8d0;
-  color: #1c2127;
-  border-color: #4fe8d0;
+  background: #a37537;;
+  color: white;
+  border-color: #a37537;;
 }
 .p-button:enabled:active {
-  background: #41e6cc;
-  color: #1c2127;
-  border-color: #41e6cc;
+  background: #a37537;;
+  color: white;
+  border-color: #a37537;;
 }
 .p-button.p-button-outlined {
   background-color: transparent;

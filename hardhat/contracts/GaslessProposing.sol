@@ -27,7 +27,7 @@ struct Proposal {
 contract GaslessProposing is GelatoRelayContext {
 
   event ProposalCreated(bytes32 taskId);
-
+  event ProposalFinished();
 
   // owner
   address immutable owner;
@@ -124,6 +124,8 @@ contract GaslessProposing is GelatoRelayContext {
     transfer(fee, feeToken);
     proposal.proposalStatus = ProposalStatus.Ready;
     IGaslessVoting(gaslessVoting)._finishProposal();
+
+    emit  ProposalFinished();
 
   }
 

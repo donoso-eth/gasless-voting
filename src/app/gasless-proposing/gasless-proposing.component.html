@@ -14,7 +14,7 @@
 
 
             <div style="text-align: center" class="col-12">
-                <div style="border:unset;height:330px" class="card mb-0">
+                <div style="border:unset" class="card mb-0">
                     <p style="font-size: 22px">
                         Best in Class Ux with
                         <span style="color: var(--primary-color)">Gelato Relay </span>
@@ -23,7 +23,10 @@
 
 
                     <h4>Welcome to GasLess DAO</h4>
-                    <p style="margin: unset">In this dApp you will be able to send gasless transactions"</p>
+                    <p style="margin: unset">with contract <a  href="https://goerli.etherscan.io/address/0x25B20b0877c47D749aA75305Df3944E848a4FC08#code" target="_blank">Gasless Porposing</a>
+                    and <a  href="https://goerli.etherscan.io/address/0x5fDACc6048C55a23f2389Fdc19009D0f68F5fE0c#code" target="_blank">Gasless Voting</a> using the brand new 
+                    <a  href="https://relay.gelato.network/apps/de87da49-11b0-4947-a961-246ea23f250c" target="_blank">1Balance</a>
+                    </p>
 
                     <div style="margin-top:30px">
                         <img height="70" src="assets/images/gelato.svg" />
@@ -32,40 +35,41 @@
 
                 </div>
             </div>
-            <div class="col-6">
+            <!-- LAST PROPOSAL -->
+            <div class="col-4">
                 <div style="border-color: transparent;text-align: center;height:400px" class="card">
 
-                    <div style="padding: 20px" class="mt-2 grid p-fluid justify-content-center">
-                        <div *ngIf="readyToPropose" style="position: relative" class="col-6 md:col-6">
-                            <h5>No Active Proposal to be voted</h5>
+                    <div class="grid p-fluid justify-content-center">
+                        <h5>Last Finished Proposal</h5>
+                        <div *ngIf="currentLastProposal != undefined && lastProposals[currentLastProposal] !== undefined"
+                            style="position: relative" class="col-10 md:col-10">
 
-                        </div>
-                        <div *ngIf="!readyToPropose" style="position: relative" class="col-10 md:col-10">
-                            <h5>Proposal ready to be voted</h5>
-                            <p>{{nameProposal}}</p>
-                            <p>{{descriptionProposal}}</p>
-                            <div style="position: relative;text-align: center;margin: auto;" >
-                                
+                            <p>{{lastProposals[currentLastProposal].name}}</p>
+                            <p>{{lastProposals[currentLastProposal].description}}</p>
+                            <div style="position: relative;text-align: center;margin: auto;">
+
                                 <div style="display: flex;justify-content: center;">
                                     <div style="margin:20px">
                                         <span>Positive</span>
                                         <br>
-                                        <span style="color: var(--primary-color);font-size:18px">{{positiveVotes}}</span>
-                                        <button  pButton pRipple style="margin: 15px auto"
-                                        type="button" label="UpVote" (click)="vote(true)" class="p-button-rounded mr-2 mb-2"></button>
+                                        <span
+                                            style="color: var(--primary-color);font-size:18px">{{lastProposals[currentLastProposal].positive}}</span>
                                     </div>
                                     <div style="margin:20px">
                                         <span>Negative</span>
                                         <br>
-                                        <span style="color: var(--primary-color);font-size:18px">{{negativeVotes}}</span>
-                                        <button  pButton pRipple style="margin: 15px auto"
-                                        type="button" label="DownVote" (click)="vote(false)" class="p-button-rounded mr-2 mb-2"></button>
-                                    </div>   
+                                        <span
+                                            style="color: var(--primary-color);font-size:18px">{{lastProposals[currentLastProposal].negative}}</span>
+                                    </div>
 
                                 </div>
-
-                            
                             </div>
+                            <p>Voting Period finished {{blockTimeToTime(lastProposals[currentLastProposal].finish +
+                                1800)}}
+                                <br>
+                                <a target="_blank" href="https://ops-interface-vue-git-feature-search-gelato.vercel.app/task/{{lastProposals[currentLastProposal].taskId}}?chainId=5">see Gelato task status</a>
+                   
+                            </p>
                         </div>
 
                     </div>
@@ -73,13 +77,60 @@
                 </div>
 
             </div>
-            <div class="col-6">
-                <div style="border-color: transparent;text-align: center;height:400px" [formGroup]="proposalForm" class="card">
+            <!-- ACTIVE PROPOSAL -->
+            <div class="col-4">
+                <div style="border-color: transparent;text-align: center;height:400px" class="card">
 
-                    <div style="padding: 20px;" class="mt-2 grid p-fluid justify-content-center">
-                        <div style="position: relative" class="col-8 md:col-8">
+                    <div  class="grid p-fluid justify-content-center">
+                        <div *ngIf="readyToPropose" style="position: relative" >
+                            <h5>No Active Proposal to be voted</h5>
+
+                        </div>
+                        <div *ngIf="!readyToPropose && activeProposal!==undefined" style="position: relative"
+                            class="col-10 md:col-10">
+                            <h5>Active Proposal</h5>
+                            <p>{{activeProposal.name}}</p>
+                            <p>{{activeProposal.description}}</p>
+                            <div style="position: relative;text-align: center;margin: auto;">
+
+                                <div style="display: flex;justify-content: center;">
+                                    <div style="margin:10px">
+                                        <span>Positive</span>
+                                        <br>
+                                        <span
+                                            style="color: var(--primary-color);font-size:18px">{{activeProposal.positive}}</span>
+                                        <button pButton pRipple style="margin: 10px auto" type="button" label="UpVote"
+                                            (click)="vote(true)" class="p-button-rounded mr-2 mb-2"></button>
+                                    </div>
+                                    <div style="margin:10px">
+                                        <span>Negative</span>
+                                        <br>
+                                        <span
+                                            style="color: var(--primary-color);font-size:18px">{{activeProposal.negative}}</span>
+                                        <button pButton pRipple style="margin: 10px auto" type="button" label="DownVote"
+                                            (click)="vote(false)" class="p-button-rounded mr-2 mb-2"></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p>Voting Period finishes {{blockTimeToTime(activeProposal.finish + 1800)}}<br>
+                            <a target="_blank" href="https://ops-interface-vue-git-feature-search-gelato.vercel.app/task/{{activeProposal.taskId}}?chainId=5">see Gelato task status</a>
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- CREATE PROPOSAL -->
+            <div class="col-4">
+                <div style="border-color: transparent;text-align: center;height:400px" [formGroup]="proposalForm"
+                    class="card">
+
+                    <div style="margin:15px" class="grid p-fluid justify-content-center">
+                        <div style="position: relative" >
                             <h5>Create your Proposal</h5>
-                        
+
                             <input placeholder="Name" formControlName="nameCtrl" type="text" pInputText />
 
                             <textarea placeholder="Description" formControlName="descriptionCtrl" [rows]="5" [cols]="30"
@@ -90,8 +141,9 @@
 
                     </div>
                     <div style="position: relative;text-align: center;margin: auto;" class="col-2 md:col-4">
-                        <button (click)="createProposal()" [disabled]="proposalForm.invalid" pButton pRipple style="margin: auto" type="button"
-                            label="Propose" class="p-button-rounded mr-2 mb-2"></button>
+                        <button (click)="createProposal()" [disabled]="proposalForm.invalid" pButton pRipple
+                            style="margin: auto" type="button" label="Propose"
+                            class="p-button-rounded mr-2 mb-2"></button>
                     </div>
                 </div>
 

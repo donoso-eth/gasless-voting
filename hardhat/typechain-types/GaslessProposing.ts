@@ -106,14 +106,21 @@ export interface GaslessProposingInterface extends utils.Interface {
 
   events: {
     "ProposalCreated(bytes32)": EventFragment;
+    "ProposalFinished()": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ProposalCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProposalFinished"): EventFragment;
 }
 
 export type ProposalCreatedEvent = TypedEvent<[string], { taskId: string }>;
 
 export type ProposalCreatedEventFilter = TypedEventFilter<ProposalCreatedEvent>;
+
+export type ProposalFinishedEvent = TypedEvent<[], {}>;
+
+export type ProposalFinishedEventFilter =
+  TypedEventFilter<ProposalFinishedEvent>;
 
 export interface GaslessProposing extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -240,6 +247,9 @@ export interface GaslessProposing extends BaseContract {
   filters: {
     "ProposalCreated(bytes32)"(taskId?: null): ProposalCreatedEventFilter;
     ProposalCreated(taskId?: null): ProposalCreatedEventFilter;
+
+    "ProposalFinished()"(): ProposalFinishedEventFilter;
+    ProposalFinished(): ProposalFinishedEventFilter;
   };
 
   estimateGas: {

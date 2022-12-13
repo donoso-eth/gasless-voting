@@ -23,6 +23,9 @@ struct ProposalState {
 }
 
 contract GaslessVoting is ERC2771Context {
+
+  event ProposalVoted();
+
   address immutable owner;
 
   // we only allow one proposal every 24 hours
@@ -58,6 +61,8 @@ contract GaslessVoting is ERC2771Context {
     address voter = _msgSender();
 
     _votingProposal(positive, voter);
+
+    emit ProposalVoted();
   }
 
   // @dev internal function with the logic
