@@ -42,7 +42,7 @@ contract GaslessVoting is ERC2771Context {
 
   mapping(uint256 => mapping(address => bool)) alredyVotedById;
 
-  constructor(address _gasslessProposing) ERC2771Context(address(0xaBcC9b596420A9E9172FD5938620E265a0f9Df92)) {
+  constructor(address _gasslessProposing) ERC2771Context(address(0xBf175FCC7086b4f9bd59d5EAE8eA67b8f940DE0d)) {
     owner = msg.sender;
     gaslessProposing = _gasslessProposing;
   }

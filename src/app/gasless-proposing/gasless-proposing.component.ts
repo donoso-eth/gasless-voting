@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { BigNumber, Contract, utils } from 'ethers';
+import { BigNumber, Contract, ethers, utils } from 'ethers';
 import { DappBaseComponent } from '../dapp-injector/classes';
 import { DappInjector } from '../dapp-injector/dapp-injector.service';
 import { GaslessProposing } from 'src/assets/contracts/interfaces/GaslessProposing';
@@ -15,7 +15,8 @@ import {
 import GaslessVotingMetadata from 'src/assets/contracts/gasless_voting_metadata.json';
 import { MessageService } from 'primeng/api';
 
-import { GelatoRelaySDK } from '@gelatonetwork/relay-sdk';
+import {  CallWithSyncFeeRequest,GelatoRelay,SponsoredCallERC2771Request } from '@gelatonetwork/relay-sdk';
+const relay = new GelatoRelay();
 import { blockTimeToTime } from '../shared/helpers/helpers';
 
 export interface IPROPOSAL {
@@ -107,6 +108,7 @@ export class GaslessProposingComponent extends DappBaseComponent {
   async createProposal() {
     if (!this.readyToPropose) {
       alert('Not able to create proposals while one is running');
+      return
     }
 
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
@@ -135,7 +137,7 @@ export class GaslessProposingComponent extends DappBaseComponent {
     };
 
     // send relayRequest to Gelato Relay API
-    const relayResponse = await GelatoRelaySDK.relayWithSyncFee(request);
+    const relayResponse = await  relay.callWithSyncFee(request);
     console.log(relayResponse);
     let taskId = relayResponse.taskId
     this.store.dispatch(Web3Actions.chainBusyWithMessage({message: {body:`Transaction relayed On chain <br>  <a target="_blank" href="https://relay.gelato.digital/tasks/status/${taskId}">status</a>  `, header:'Waiting On-Chain execution'}}))
@@ -157,12 +159,13 @@ export class GaslessProposingComponent extends DappBaseComponent {
         data: data!, // encoded transaction datas
         user: this.dapp.signerAddress!, //user sending the trasnaction
       };
+      console.log(this.readGaslessVoting.address);
 
       const sponsorApiKey = '1NnnocBNgXnG1VgUnFTHXmUICsvYqfjtKsAq1OCmaxk_';
-
-      const relayResponse = await GelatoRelaySDK.relayWithSponsoredUserAuthCall(
+      let ethereum = (window as any).ethereum;
+      const relayResponse = await relay.sponsoredCallERC2771(
         request,
-        this.dapp.DAPP_STATE.defaultProvider,
+        new ethers.providers.Web3Provider(ethereum),
         sponsorApiKey
       );
 
