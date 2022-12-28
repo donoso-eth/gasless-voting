@@ -3,10 +3,6 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-import {
-    ERC2771Context
-} from "@gelatonetwork/relay-context/contracts/vendor/ERC2771Context.sol";
-
 enum VotingStatus {
   VOTING,
   APPROVED,
@@ -22,7 +18,7 @@ struct ProposalState {
   bytes payload;
 }
 
-contract GaslessVoting is ERC2771Context {
+contract GaslessVoting  {
 
   event ProposalVoted();
 
@@ -42,23 +38,16 @@ contract GaslessVoting is ERC2771Context {
 
   mapping(uint256 => mapping(address => bool)) alredyVotedById;
 
-  constructor(address _gasslessProposing) ERC2771Context(address(0xBf175FCC7086b4f9bd59d5EAE8eA67b8f940DE0d)) {
+  constructor(address _gasslessProposing) {
     owner = msg.sender;
     gaslessProposing = _gasslessProposing;
   }
 
-  modifier onlyTrustedForwarder() {
-    require(
-      isTrustedForwarder(msg.sender),
-      "Only callable by Trusted Forwarder"
-    );
-    _;
-  }
 
   //  @notice voting proposal
   //  @dev function called by the relaer implementing the onlyTrusted Forwarder
-  function votingProposal(bool positive) external onlyTrustedForwarder {
-    address voter = _msgSender();
+  function votingProposal(bool positive) external {
+    address voter = msg.sender;
 
     _votingProposal(positive, voter);
 

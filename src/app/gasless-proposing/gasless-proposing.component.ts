@@ -15,9 +15,9 @@ import {
 import GaslessVotingMetadata from 'src/assets/contracts/gasless_voting_metadata.json';
 import { MessageService } from 'primeng/api';
 
-import {  CallWithSyncFeeRequest,GelatoRelay,SponsoredCallERC2771Request } from '@gelatonetwork/relay-sdk';
-const relay = new GelatoRelay();
+
 import { blockTimeToTime } from '../shared/helpers/helpers';
+import { doSignerTransaction } from '../dapp-injector/classes/transactor';
 
 export interface IPROPOSAL {
   name: string;
@@ -26,7 +26,7 @@ export interface IPROPOSAL {
   negative: number;
   result: boolean;
   finish: number;
-  taskId:string
+  taskId: string;
 }
 
 @Component({
@@ -74,45 +74,22 @@ export class GaslessProposingComponent extends DappBaseComponent {
 
   blockTimeToTime = blockTimeToTime;
 
-  async instantiateReadContract() {
-    let provider = await this.dapp.providerInitialization();
-    this.readGaslessProposing = new Contract(
-      GaslessPoposingMetadata.address,
-      GaslessPoposingMetadata.abi,
-      provider
-    ) as GaslessProposing;
-
-    this.readGaslessProposing.on('ProposalCreated', (taskId) => {
-      this.getState();
-    });
-
-    this.readGaslessProposing.on('ProposalFinished', () => {
-      this.getState();
-    });
-
-
-    this.readGaslessVoting = new Contract(
-      GaslessVotingMetadata.address,
-      GaslessVotingMetadata.abi,
-      provider
-    ) as GaslessVoting;
-
-    this.readGaslessVoting.on('ProposalVoted', () => {
-      this.getState();
-    });
-
-
-    this.getState();
-  }
-
+  /// create Proposal function
   async createProposal() {
     if (!this.readyToPropose) {
       alert('Not able to create proposals while one is running');
-      return
+      return;
     }
 
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-    this.store.dispatch(Web3Actions.chainBusyWithMessage({message: {body:'Waiting for the relayer relayer ', header:'Sending Gasless Transaction'}}))
+    this.store.dispatch(
+      Web3Actions.chainBusyWithMessage({
+        message: {
+          body: 'Waiting for the transaction to be executed ',
+          header: 'Sending Transaction',
+        },
+      })
+    );
     let name = this.proposalForm.controls.nameCtrl.value;
     let description = this.proposalForm.controls.descriptionCtrl.value;
 
@@ -121,59 +98,27 @@ export class GaslessProposingComponent extends DappBaseComponent {
       [name, description]
     );
 
-    const feeToken = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE';
-    const { data } =
-      await this.readGaslessProposing.populateTransaction.createProposal(
-        payload
-      );
+    await doSignerTransaction(
+      this.gaslessProposing.createProposalTransaction(payload)
+    );
 
-    // populate the relay SDK request body
-    const request = {
-      chainId: 5, // Goerli in this case
-      target: this.readGaslessProposing.address, // target contract address
-      data: data!, // encoded transaction datas
-      isRelayContext: true, // are we using context contracts
-      feeToken: feeToken, // token to pay the relayer
-    };
-
-    // send relayRequest to Gelato Relay API
-    const relayResponse = await  relay.callWithSyncFee(request);
-    console.log(relayResponse);
-    let taskId = relayResponse.taskId
-    this.store.dispatch(Web3Actions.chainBusyWithMessage({message: {body:`Transaction relayed On chain <br>  <a target="_blank" href="https://relay.gelato.digital/tasks/status/${taskId}">status</a>  `, header:'Waiting On-Chain execution'}}))
-  
   }
 
+  /// Vote function 
   async vote(value: boolean) {
     try {
       this.store.dispatch(Web3Actions.chainBusy({ status: true }));
-      this.store.dispatch(Web3Actions.chainBusyWithMessage({message: {body:'Waiting for the relayer relayer ', header:'Sending Gasless Transaction'}}))
- 
-
-      const { data } =
-        await this.gaslessVoting.populateTransaction.votingProposal(value);
-
-      const request = {
-        chainId: 5, // Goerli in this case
-        target: this.readGaslessVoting.address, // target contract address
-        data: data!, // encoded transaction datas
-        user: this.dapp.signerAddress!, //user sending the trasnaction
-      };
-      console.log(this.readGaslessVoting.address);
-
-      const sponsorApiKey = '1NnnocBNgXnG1VgUnFTHXmUICsvYqfjtKsAq1OCmaxk_';
-      let ethereum = (window as any).ethereum;
-      const relayResponse = await relay.sponsoredCallERC2771(
-        request,
-        new ethers.providers.Web3Provider(ethereum),
-        sponsorApiKey
+      this.store.dispatch(
+        Web3Actions.chainBusyWithMessage({
+          message: {
+            body: 'Waiting for the transaction to be executed',
+            header: 'Sending Transaction',
+          },
+        })
       );
+        await doSignerTransaction(this.gaslessVoting.votingProposal(value));
 
-      console.log(relayResponse);
-
-    let taskId = relayResponse.taskId
-    this.store.dispatch(Web3Actions.chainBusyWithMessage({message: {body:`Transaction relayed On chain <br>  <a target="_blank" href="https://relay.gelato.digital/tasks/status/${taskId}">status</a>  `, header:'Waiting On-Chain execution'}}))
-
+    
     } catch (error) {
       this.messageService.add({
         severity: 'info',
@@ -185,12 +130,12 @@ export class GaslessProposingComponent extends DappBaseComponent {
     }
   }
 
+  /// Refresh State
   async getState() {
     this.store.dispatch(Web3Actions.chainBusy({ status: true }));
 
     let proposal = await this.readGaslessProposing.getStatus();
 
-    console.log(proposal);
 
     this.readyToPropose = proposal.proposalStatus == 0 ? true : false;
 
@@ -200,7 +145,10 @@ export class GaslessProposingComponent extends DappBaseComponent {
         ? +proposal.proposalId.toString()
         : +proposal.proposalId.toString() - 1;
 
-    if (this.lastProposals[this.currentLastProposal] === undefined && this.currentLastProposal != 0) {
+    if (
+      this.lastProposals[this.currentLastProposal] === undefined &&
+      this.currentLastProposal != 0
+    ) {
       let result = (await this.readGaslessVoting.getProsalStateById(
         this.currentLastProposal
       )) as ProposalStateStructOutput;
@@ -217,15 +165,13 @@ export class GaslessProposingComponent extends DappBaseComponent {
         description: descriptionProposal,
         result: true,
         finish: +result.proposalTimestamp.toString(),
-        taskId: proposal.taskId
+        taskId: proposal.taskId,
       };
     }
 
     if (this.readyToPropose == false) {
       let result =
         (await this.readGaslessVoting.getProposalState()) as ProposalStateStructOutput;
-
-     
 
       let [nameProposal, descriptionProposal] = this.abiCoder.decode(
         ['string', 'string'],
@@ -239,13 +185,44 @@ export class GaslessProposingComponent extends DappBaseComponent {
         description: descriptionProposal,
         result: true,
         finish: +result.proposalTimestamp.toString(),
-        taskId: proposal.taskId
+        taskId: proposal.taskId,
       };
 
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
     } else {
       this.store.dispatch(Web3Actions.chainBusy({ status: false }));
     }
+  }
+
+
+  /// Instantiate read and write(with signer) contracts
+  async instantiateReadContract() {
+    let provider = await this.dapp.providerInitialization();
+    this.readGaslessProposing = new Contract(
+      GaslessPoposingMetadata.address,
+      GaslessPoposingMetadata.abi,
+      provider
+    ) as GaslessProposing;
+
+    this.readGaslessProposing.on('ProposalCreated', () => {
+      this.getState();
+    });
+
+    this.readGaslessProposing.on('ProposalFinished', () => {
+      this.getState();
+    });
+
+    this.readGaslessVoting = new Contract(
+      GaslessVotingMetadata.address,
+      GaslessVotingMetadata.abi,
+      provider
+    ) as GaslessVoting;
+
+    this.readGaslessVoting.on('ProposalVoted', () => {
+      this.getState();
+    });
+
+    this.getState();
   }
 
   override async hookContractConnected(): Promise<void> {

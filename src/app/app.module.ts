@@ -20,7 +20,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppFooterComponent } from './shared/components/footer/app.footer.component';
 
-const network = 'goerli';
+const network = 'localhost';
 
 @NgModule({
   declarations: [

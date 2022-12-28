@@ -7,8 +7,6 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 import {IGaslessVoting} from "./interfaces/IGaslessVoting.sol";
 
-import {GelatoRelayContext} from "@gelatonetwork/relay-context/contracts/GelatoRelayContext.sol";
-
 import {IOps} from "./gelato/IOps.sol";
 import {LibDataTypes} from "./gelato/LibDataTypes.sol";
 
@@ -24,7 +22,7 @@ struct Proposal {
 }
 
 
-contract GaslessProposing is GelatoRelayContext {
+contract GaslessProposing  {
 
   event ProposalCreated(bytes32 taskId);
   event ProposalFinished();
@@ -65,13 +63,12 @@ contract GaslessProposing is GelatoRelayContext {
   // @notice
   // @dev external only Gelato relayer
   // @dev transfer Fee to Geato with _transferRelayFee();
-  function createProposal(bytes calldata payload) external onlyGelatoRelay {
+  function createProposalTransaction(bytes calldata payload) external  {
     require(
       proposal.proposalStatus == ProposalStatus.Ready,
       "OLD_PROPOSAL_STILL_ACTIVE"
     );
 
-    _transferRelayFee();
 
     proposalId++;
     proposal.proposalStatus = ProposalStatus.Voting;
@@ -84,6 +81,7 @@ contract GaslessProposing is GelatoRelayContext {
    proposal.taskId = finishingVotingTask;
     emit ProposalCreated(finishingVotingTask);
   }
+
 
 
   // #region  ========== =============  GELATO OPS AUTOMATE CLOSING PROPOSAL  ============= ============= //

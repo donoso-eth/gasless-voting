@@ -32,7 +32,7 @@ export type ProposalStructOutput = [number, string, BigNumber] & {
 export interface GaslessProposingInterface extends utils.Interface {
   functions: {
     "ETH()": FunctionFragment;
-    "createProposal(bytes)": FunctionFragment;
+    "createProposalTransaction(bytes)": FunctionFragment;
     "finishVoting()": FunctionFragment;
     "finishingVotingTask()": FunctionFragment;
     "gelato()": FunctionFragment;
@@ -46,7 +46,7 @@ export interface GaslessProposingInterface extends utils.Interface {
 
   encodeFunctionData(functionFragment: "ETH", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "createProposal",
+    functionFragment: "createProposalTransaction",
     values: [BytesLike]
   ): string;
   encodeFunctionData(
@@ -76,7 +76,7 @@ export interface GaslessProposingInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "ETH", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "createProposal",
+    functionFragment: "createProposalTransaction",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -151,7 +151,7 @@ export interface GaslessProposing extends BaseContract {
   functions: {
     ETH(overrides?: CallOverrides): Promise<[string]>;
 
-    createProposal(
+    createProposalTransaction(
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
@@ -184,7 +184,7 @@ export interface GaslessProposing extends BaseContract {
 
   ETH(overrides?: CallOverrides): Promise<string>;
 
-  createProposal(
+  createProposalTransaction(
     payload: BytesLike,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
@@ -217,7 +217,7 @@ export interface GaslessProposing extends BaseContract {
   callStatic: {
     ETH(overrides?: CallOverrides): Promise<string>;
 
-    createProposal(
+    createProposalTransaction(
       payload: BytesLike,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -255,7 +255,7 @@ export interface GaslessProposing extends BaseContract {
   estimateGas: {
     ETH(overrides?: CallOverrides): Promise<BigNumber>;
 
-    createProposal(
+    createProposalTransaction(
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
@@ -289,7 +289,7 @@ export interface GaslessProposing extends BaseContract {
   populateTransaction: {
     ETH(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    createProposal(
+    createProposalTransaction(
       payload: BytesLike,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
