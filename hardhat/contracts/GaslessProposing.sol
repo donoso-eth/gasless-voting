@@ -3,8 +3,6 @@ pragma solidity ^0.8.0;
 
 import "hardhat/console.sol";
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-
 import {IGaslessVoting} from "./interfaces/IGaslessVoting.sol";
 
 import {IOps} from "./gelato/IOps.sol";
