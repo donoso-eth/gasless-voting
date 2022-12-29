@@ -58,9 +58,8 @@ contract GaslessProposing  {
     gelato = IOps(_ops).gelato();
   }
 
-  // @notice
-  // @dev external only Gelato relayer
-  // @dev transfer Fee to Geato with _transferRelayFee();
+  // @notice createProposal Transaction
+  // @dev external
   function createProposalTransaction(bytes calldata payload) external  {
     require(
       proposal.proposalStatus == ProposalStatus.Ready,
