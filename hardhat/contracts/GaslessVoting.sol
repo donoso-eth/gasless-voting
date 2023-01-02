@@ -45,7 +45,7 @@ contract GaslessVoting  {
 
 
   //  @notice voting proposal
-  //  @dev function called by the relaer implementing the onlyTrusted Forwarder
+  //  @dev 
   function votingProposal(bool positive) external {
     address voter = msg.sender;
 
